@@ -61,6 +61,7 @@
     </exec>
 
 
+    <delete dir="${webappTargetDir}/jbrowse/node_modules"/>
 
     <!-- setup.sh -->
     <exec executable="/bin/bash"
@@ -69,6 +70,10 @@
       failifexecutionfails="true">
            <arg line="setup.sh"/>
     </exec>
+
+    <symlink link="${webappTargetDir}/jbrowse/sample_data/webServices" resource="/var/www/Common/apiSiteFilesMirror/webServices"/>
+
+
 
 
   </target>
