@@ -1,0 +1,89 @@
+<project name="JBrowse" default="Installation" basedir=".">
+
+  <!-- ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooo  Dependencies  oooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooo    Checkout    oooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <target name="JBrowse-ChildCheckout" />
+  
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooo    Update    oooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <target name="JBrowse-ChildUpdate" />
+
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <target name="JBrowse-Installation" depends="">
+    <!-- nothing to install; JBrowse is installed by ApiCommonWebsite script -->
+    <echo message="Processing JBrowse dependency..."/>
+    <ant target="defaultProjectInstall">
+      <property name="project" value="JBrowse"/>
+    </ant>
+
+    <!-- although JBrowse doesn't have component, but this call is needed to record build information. -->
+    <ant target="defaultComponentInstall">
+      <property name="project" value="JBrowse"/>
+    </ant>
+  </target>
+  
+  <target name="JBrowse-WebInstallation" depends="JBrowse-Installation">
+
+    <!-- yarn install GMOD/jbrowse -->
+    <exec executable="yarn"
+      dir="${projectsDir}/${project}"
+      failonerror="true"
+      failifexecutionfails="true">
+           <arg line="install"/>
+    </exec>
+
+    <!-- multibigwig plugin -->
+    <unzip src="${projectsDir}/${project}/plugins/multibigwig.zip" 
+           dest="${projectsDir}/${project}/plugins/"/>
+    <move todir="${projectsDir}/${project}/node_modules/@gmod/jbrowse/plugins/MultiBigWig">
+      <fileset dir="${projectsDir}/${project}/plugins/multibigwig-master"/>
+    </move>
+
+    <!-- cannot use ant copy because file permissions are not retained -->
+    <exec executable="cp"
+      dir="${projectsDir}/${project}"
+      failonerror="true"
+      failifexecutionfails="true">
+           <arg line="-r"/>
+           <arg line="${projectsDir}/${project}/node_modules/@gmod/jbrowse"/>
+           <arg line="${webappTargetDir}/jbrowse"/>
+    </exec>
+
+
+
+    <!-- setup.sh -->
+    <exec executable="/bin/bash"
+      dir="${webappTargetDir}/jbrowse"
+      failonerror="true"
+      failifexecutionfails="true">
+           <arg line="setup.sh"/>
+    </exec>
+
+
+  </target>
+  
+  <!-- oooooooooooooooooo  Installation Postprocess  ooooooooooooooooooooo -->
+
+  <target name="JBrowse-Installation-postprocess"/>
+
+  <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
+
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooo  Release  ooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <target name="JBrowse-Release"/>
+
+</project>
+
