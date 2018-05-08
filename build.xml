@@ -64,6 +64,8 @@
     <delete dir="${webappTargetDir}/jbrowse/node_modules"/>
 
     <copy file="${projectsDir}/${project}/jbrowse_conf.json" tofile="${webappTargetDir}/jbrowse/jbrowse_conf.json"/>
+    <copy file="${projectsDir}/${project}/functions.conf" tofile="${webappTargetDir}/jbrowse/functions.conf"/>
+    <copy file="${projectsDir}/${project}/index.html" tofile="${webappTargetDir}/jbrowse/index.html"/>
 
     <!-- setup.sh -->
     <exec executable="/bin/bash"
@@ -73,7 +75,7 @@
            <arg line="setup.sh"/>
     </exec>
 
-    <symlink link="${webappTargetDir}/jbrowse/sample_data/webServices" failonerror="false"/>
+    <symlink action="delete" link="${webappTargetDir}/jbrowse/sample_data/webServices" failonerror="false"/>
     <symlink link="${webappTargetDir}/jbrowse/sample_data/webServices" resource="/var/www/Common/apiSiteFilesMirror/webServices"/>
 
 
