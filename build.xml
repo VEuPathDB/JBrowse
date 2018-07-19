@@ -60,12 +60,13 @@
            <arg line="${webappTargetDir}/jbrowse"/>
     </exec>
 
-
+    <delete file="${webappTargetDir}/jbrowse/index.html"/>
     <delete dir="${webappTargetDir}/jbrowse/node_modules"/>
 
     <copy file="${projectsDir}/${project}/jbrowse_conf.json" tofile="${webappTargetDir}/jbrowse/jbrowse_conf.json"/>
     <copy file="${projectsDir}/${project}/functions.conf" tofile="${webappTargetDir}/jbrowse/functions.conf"/>
     <copy file="${projectsDir}/${project}/index.html" tofile="${webappTargetDir}/jbrowse/index.html"/>
+    <copy file="${projectsDir}/${project}/apiGBrowsePopups.js" tofile="${webappTargetDir}/jbrowse/apiGBrowsePopups.js"/>
 
     <!-- setup.sh -->
     <exec executable="/bin/bash"
@@ -75,10 +76,19 @@
            <arg line="setup.sh"/>
     </exec>
 
-    <symlink action="delete" link="${webappTargetDir}/jbrowse/sample_data/webServices" failonerror="false"/>
-    <symlink link="${webappTargetDir}/jbrowse/sample_data/webServices" resource="/var/www/Common/apiSiteFilesMirror/webServices"/>
+
+    <symlink action="delete" link="${webappTargetDir}/jbrowse/eupath_data/webServices" failonerror="false"/>
+    <symlink action="delete" link="${webappTargetDir}/jbrowse/eupath_data/auxiliary" failonerror="false"/>
 
 
+    <!--delete dir="${webappTargetDir}/jbrowse/eupath_data"/-->
+    <copy todir="${webappTargetDir}/jbrowse/eupath_data/json/">
+      <fileset dir="${projectsDir}/${project}/eupath_data/json/" />
+    </copy>
+
+
+    <symlink link="${webappTargetDir}/jbrowse/eupath_data/webServices" resource="/var/www/Common/apiSiteFilesMirror/webServices"/>
+    <symlink link="${webappTargetDir}/jbrowse/eupath_data/auxiliary" resource="/var/www/Common/apiSiteFilesMirror/auxiliary"/>
 
   </target>
   
