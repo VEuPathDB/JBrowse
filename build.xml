@@ -44,6 +44,7 @@
     </exec>
 
     <!-- multibigwig plugin -->
+
     <unzip src="${projectsDir}/${project}/plugins/multibigwig.zip" 
            dest="${projectsDir}/${project}/plugins/"/>
     <move todir="${projectsDir}/${project}/node_modules/@gmod/jbrowse/plugins/MultiBigWig">
@@ -60,14 +61,6 @@
            <arg line="${webappTargetDir}/jbrowse"/>
     </exec>
 
-    <delete file="${webappTargetDir}/jbrowse/index.html"/>
-    <delete dir="${webappTargetDir}/jbrowse/node_modules"/>
-
-    <copy file="${projectsDir}/${project}/jbrowse_conf.json" tofile="${webappTargetDir}/jbrowse/jbrowse_conf.json"/>
-    <copy file="${projectsDir}/${project}/functions.conf" tofile="${webappTargetDir}/jbrowse/functions.conf"/>
-    <copy file="${projectsDir}/${project}/index.html" tofile="${webappTargetDir}/jbrowse/index.html"/>
-    <copy file="${projectsDir}/${project}/apiGBrowsePopups.js" tofile="${webappTargetDir}/jbrowse/apiGBrowsePopups.js"/>
-
     <!-- setup.sh -->
     <exec executable="/bin/bash"
       dir="${webappTargetDir}/jbrowse"
@@ -76,14 +69,19 @@
            <arg line="setup.sh"/>
     </exec>
 
+    <delete file="${webappTargetDir}/jbrowse/index.html"/>
+    <delete file="${webappTargetDir}/jbrowse/jbrowse_conf.json"/>
+    <delete dir="${webappTargetDir}/jbrowse/node_modules"/>
 
-    <symlink action="delete" link="${webappTargetDir}/jbrowse/eupath_data/webServices" failonerror="false"/>
-    <symlink action="delete" link="${webappTargetDir}/jbrowse/eupath_data/auxiliary" failonerror="false"/>
+    <copy file="${projectsDir}/${project}/jbrowse_conf.json" tofile="${webappTargetDir}/jbrowse/jbrowse_conf.json"/>
+    <copy file="${projectsDir}/${project}/functions.conf" tofile="${webappTargetDir}/jbrowse/functions.conf"/>
+    <copy file="${projectsDir}/${project}/index.html" tofile="${webappTargetDir}/jbrowse/index.html"/>
+    <copy file="${projectsDir}/${project}/apiGBrowsePopups.js" tofile="${webappTargetDir}/jbrowse/apiGBrowsePopups.js"/>
 
+    <delete dir="${webappTargetDir}/jbrowse/eupath_data" followsymlinks="false" removeNotFollowedSymlinks="true"/>
 
-    <!--delete dir="${webappTargetDir}/jbrowse/eupath_data"/-->
-    <copy todir="${webappTargetDir}/jbrowse/eupath_data/json/">
-      <fileset dir="${projectsDir}/${project}/eupath_data/json/" />
+    <copy todir="${webappTargetDir}/jbrowse/eupath_data/">
+      <fileset dir="${projectsDir}/${project}/eupath_data/" />
     </copy>
 
 
