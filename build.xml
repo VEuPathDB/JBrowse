@@ -70,20 +70,17 @@
     </exec>
 
     <delete file="${webappTargetDir}/jbrowse/index.html"/>
-    <delete file="${webappTargetDir}/jbrowse/jbrowse_conf.json"/>
+    <delete file="${webappTargetDir}/jbrowse/jbrowse.conf"/>
     <delete dir="${webappTargetDir}/jbrowse/node_modules"/>
 
-    <copy file="${projectsDir}/${project}/jbrowse_conf.json" tofile="${webappTargetDir}/jbrowse/jbrowse_conf.json"/>
+    <delete dir="${webappTargetDir}/jbrowse/eupath_data" followsymlinks="false" removeNotFollowedSymlinks="true"/>
+
+    <copy file="${projectsDir}/${project}/jbrowse.conf" tofile="${webappTargetDir}/jbrowse/jbrowse.conf"/>
     <copy file="${projectsDir}/${project}/functions.conf" tofile="${webappTargetDir}/jbrowse/functions.conf"/>
     <copy file="${projectsDir}/${project}/index.html" tofile="${webappTargetDir}/jbrowse/index.html"/>
     <copy file="${projectsDir}/${project}/apiGBrowsePopups.js" tofile="${webappTargetDir}/jbrowse/apiGBrowsePopups.js"/>
 
-    <delete dir="${webappTargetDir}/jbrowse/eupath_data" followsymlinks="false" removeNotFollowedSymlinks="true"/>
-
-    <copy todir="${webappTargetDir}/jbrowse/eupath_data/">
-      <fileset dir="${projectsDir}/${project}/eupath_data/" />
-    </copy>
-
+    <mkdir dir="${webappTargetDir}/jbrowse/eupath_data"/>
 
     <symlink link="${webappTargetDir}/jbrowse/eupath_data/webServices" resource="/var/www/Common/apiSiteFilesMirror/webServices"/>
     <symlink link="${webappTargetDir}/jbrowse/eupath_data/auxiliary" resource="/var/www/Common/apiSiteFilesMirror/auxiliary"/>
