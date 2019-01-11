@@ -20,7 +20,7 @@
   <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="JBrowse-Installation" depends="JBrowse/Model-Installation">
+  <target name="JBrowse-Installation" depends="">
 
     <ant target="defaultProjectInstall">
       <property name="project" value="JBrowse"/>
@@ -65,22 +65,10 @@
     </exec>
 
     <delete file="${webappTargetDir}/jbrowse/index.html"/>
-    <delete file="${webappTargetDir}/jbrowse/jbrowse.conf"/>
     <delete dir="${webappTargetDir}/jbrowse/node_modules"/>
 
-    <delete dir="${webappTargetDir}/jbrowse/eupath_data" followsymlinks="false" removeNotFollowedSymlinks="true"/>
-
-    <mkdir dir="${webappTargetDir}/jbrowse/eupath_data"/>
-
-    <copy file="${projectsDir}/JBrowse/Model/conf/jbrowse.conf" tofile="${webappTargetDir}/jbrowse/jbrowse.conf"/>
-    <copy file="${projectsDir}/JBrowse/Model/conf/functions.conf" tofile="${webappTargetDir}/jbrowse/functions.conf"/>
     <copy file="${projectsDir}/JBrowse/Site/htdocs/index.html" tofile="${webappTargetDir}/jbrowse/index.html"/>
     <copy file="${projectsDir}/JBrowse/Site/htdocs/apiGBrowsePopups.js" tofile="${webappTargetDir}/jbrowse/apiGBrowsePopups.js"/>
-
-    <symlink link="${webappTargetDir}/jbrowse/eupath_data/webServices" resource="/var/www/Common/apiSiteFilesMirror/webServices"/>
-    <symlink link="${webappTargetDir}/jbrowse/eupath_data/auxiliary" resource="/var/www/Common/apiSiteFilesMirror/auxiliary"/>
-
-    <symlink link="${webappTargetDir}/jbrowse/tracks" resource="${targetDir}/lib/jbrowse/auto_generated"/>
 
   </target>
   
@@ -89,17 +77,6 @@
   <target name="JBrowse-Installation-postprocess"/>
 
   <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
-
-
-  <target name="JBrowse/Model-Installation" depends="ProjectTree">
-
-    <ant target="defaultComponentInstall">
-      <property name="project" value="JBrowse"/>
-      <property name="component" value="Model"/>
-    </ant>
-
-  </target>  
-
 
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
