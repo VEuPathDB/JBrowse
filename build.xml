@@ -32,7 +32,7 @@
 
     <!-- yarn install GMOD/jbrowse -->
     <exec executable="yarn"
-      dir="${projectsDir}/${project}"
+      dir="${projectsDir}/JBrowse"
       failonerror="true"
       failifexecutionfails="true">
            <arg line="install"/>
@@ -40,19 +40,19 @@
 
     <!-- multibigwig plugin -->
 
-    <unzip src="${projectsDir}/${project}/plugins/multibigwig.zip" 
-           dest="${projectsDir}/${project}/plugins/"/>
-    <move todir="${projectsDir}/${project}/node_modules/@gmod/jbrowse/plugins/MultiBigWig">
-      <fileset dir="${projectsDir}/${project}/plugins/multibigwig-master"/>
+    <unzip src="${projectsDir}/JBrowse/plugins/multibigwig.zip" 
+           dest="${projectsDir}/JBrowse/plugins/"/>
+    <move todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/MultiBigWig">
+      <fileset dir="${projectsDir}/JBrowse/plugins/multibigwig-master"/>
     </move>
 
     <!-- cannot use ant copy because file permissions are not retained -->
     <exec executable="cp"
-      dir="${projectsDir}/${project}"
+      dir="${projectsDir}/JBrowse"
       failonerror="true"
       failifexecutionfails="true">
            <arg line="-r"/>
-           <arg line="${projectsDir}/${project}/node_modules/@gmod/jbrowse"/>
+           <arg line="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse"/>
            <arg line="${webappTargetDir}/jbrowse"/>
     </exec>
 
@@ -72,10 +72,10 @@
 
     <mkdir dir="${webappTargetDir}/jbrowse/eupath_data"/>
 
-    <copy file="${projectsDir}/${project}/Model/conf/jbrowse.conf" tofile="${webappTargetDir}/jbrowse/jbrowse.conf"/>
-    <copy file="${projectsDir}/${project}/Model/conf/functions.conf" tofile="${webappTargetDir}/jbrowse/functions.conf"/>
-    <copy file="${projectsDir}/${project}/Site/htdocs/index.html" tofile="${webappTargetDir}/jbrowse/index.html"/>
-    <copy file="${projectsDir}/${project}/Site/htdocs/apiGBrowsePopups.js" tofile="${webappTargetDir}/jbrowse/apiGBrowsePopups.js"/>
+    <copy file="${projectsDir}/JBrowse/Model/conf/jbrowse.conf" tofile="${webappTargetDir}/jbrowse/jbrowse.conf"/>
+    <copy file="${projectsDir}/JBrowse/Model/conf/functions.conf" tofile="${webappTargetDir}/jbrowse/functions.conf"/>
+    <copy file="${projectsDir}/JBrowse/Site/htdocs/index.html" tofile="${webappTargetDir}/jbrowse/index.html"/>
+    <copy file="${projectsDir}/JBrowse/Site/htdocs/apiGBrowsePopups.js" tofile="${webappTargetDir}/jbrowse/apiGBrowsePopups.js"/>
 
     <symlink link="${webappTargetDir}/jbrowse/eupath_data/webServices" resource="/var/www/Common/apiSiteFilesMirror/webServices"/>
     <symlink link="${webappTargetDir}/jbrowse/eupath_data/auxiliary" resource="/var/www/Common/apiSiteFilesMirror/auxiliary"/>
