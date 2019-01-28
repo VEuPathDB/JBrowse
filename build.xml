@@ -70,7 +70,7 @@
     <delete dir="${webappTargetDir}/jbrowse/node_modules"/>
 
     <copy file="${projectsDir}/JBrowse/Site/htdocs/index.html" tofile="${webappTargetDir}/jbrowse/index.html"/>
-    <copy file="${projectsDir}/JBrowse/Site/htdocs/apiGBrowsePopups.js" tofile="${webappTargetDir}/jbrowse/apiGBrowsePopups.js"/>
+    <copy file="${projectsDir}/JBrowse/Site/htdocs/apiJBrowsePopups.js" tofile="${webappTargetDir}/jbrowse/apiJBrowsePopups.js"/>
 
   </target>
   
