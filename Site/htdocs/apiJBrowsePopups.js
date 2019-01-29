@@ -22,6 +22,9 @@ positionString = function(refseq, start, end, strand)  {
     return refseq + ":" + start + ".." + end + " " + strandString;
 }
 
+function round(value, decimals) {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
 
 /****** Pop-up functions for various record types ******/
 
