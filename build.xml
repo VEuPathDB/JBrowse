@@ -48,7 +48,7 @@
 
     <exec executable="rm"
 	  dir="${webappTargetDir}"
-	  failonerror="true"
+	  failonerror="false"
 	  failifexecutionfails="true">
       <arg line="-r"/>
       <arg line="jbrowse"/>
