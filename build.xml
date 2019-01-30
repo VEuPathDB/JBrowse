@@ -46,7 +46,13 @@
       <fileset dir="${projectsDir}/JBrowse/plugins/multibigwig-master"/>
     </move>
 
-    <delete dir="${webappTargetDir}/jbrowse" followsymlinks="false" removeNotFollowedSymlinks="true"/>
+    <exec executable="rm"
+	  dir="${webappTargetDir}"
+	  failonerror="true"
+	  failifexecutionfails="true">
+      <arg line="-r"/>
+      <arg line="jbrowse"/>
+    </exec>
 
     <!-- cannot use ant copy because file permissions are not retained -->
     <exec executable="cp"
