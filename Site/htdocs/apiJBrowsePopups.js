@@ -38,7 +38,7 @@ function titleCase(str) {
 /****** Pop-up functions for various record types ******/
 
 // Gene title
-function gene_title (tip, projectId, sourceId, chr, loc, soTerm, product, taxon, utr, gbLinkParams, orthomcl, geneId, baseUrl, baseRecordUrl, aaseqid ) {
+function gene_title (tip, projectId, sourceId, chr, loc, soTerm, product, taxon, utr, loc, orthomcl, geneId, dataRoot, baseUrl, baseRecordUrl, aaseqid ) {
 
   // In ToxoDB, sequences of alternative gene models have to be returned
   var ignore_gene_alias = 0;
@@ -47,16 +47,17 @@ function gene_title (tip, projectId, sourceId, chr, loc, soTerm, product, taxon,
   }
 
   // expand minimalist input data
-  var cdsLink = "<a href='" + baseUrl + "/cgi-bin/geneSrt?project_id=" + projectId
+  var cdsLink = "<a href='/cgi-bin/geneSrt?project_id=" + projectId
     + "&ids=" + sourceId
     + "&ignore_gene_alias=" + ignore_gene_alias
     + "&type=CDS&upstreamAnchor=Start&upstreamOffset=0&downstreamAnchor=End&downstreamOffset=0&go=Get+Sequences' target='_blank'>CDS</a>"
-  var proteinLink = "<a href='" + baseUrl + "/cgi-bin/geneSrt?project_id=" + projectId
+  var proteinLink = "<a href='/cgi-bin/geneSrt?project_id=" + projectId
     + "&ids=" + sourceId
     + "&ignore_gene_alias=" + ignore_gene_alias
     + "&type=protein&upstreamAnchor=Start&upstreamOffset=0&downstreamAnchor=End&downstreamOffset=0&endAnchor3=End&go=Get+Sequences' target='_blank'>protein</a>"
   var recordLink = '<a href="' + baseRecordUrl + '/gene/' + geneId + '">Gene Page</a>';
-  var gbLink = "<a href='" + baseUrl + "/cgi-bin/gbrowse/" + projectId.toLowerCase() + "/?" + gbLinkParams + "'>GBrowse</a>";
+
+  var gbLink = "<a href='" + baseUrl + "index.html?data=" + dataRoot + "&loc=" + loc + "'>JBrowse</a>";
   var orthomclLink = "<a href='http://orthomcl.org/cgi-bin/OrthoMclWeb.cgi?rm=sequenceList&groupac=" + orthomcl + "'>" + orthomcl + "</a>";
 
   // format into html table rows
