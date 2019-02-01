@@ -38,7 +38,7 @@ function titleCase(str) {
 /****** Pop-up functions for various record types ******/
 
 // Gene title
-function gene_title (tip, projectId, sourceId, chr, loc, soTerm, product, taxon, utr, loc, orthomcl, geneId, dataRoot, baseUrl, baseRecordUrl, aaseqid ) {
+function gene_title (tip, projectId, sourceId, chr, loc, soTerm, product, taxon, utr, position, orthomcl, geneId, dataRoot, baseUrl, baseRecordUrl, aaseqid ) {
 
   // In ToxoDB, sequences of alternative gene models have to be returned
   var ignore_gene_alias = 0;
@@ -57,7 +57,7 @@ function gene_title (tip, projectId, sourceId, chr, loc, soTerm, product, taxon,
     + "&type=protein&upstreamAnchor=Start&upstreamOffset=0&downstreamAnchor=End&downstreamOffset=0&endAnchor3=End&go=Get+Sequences' target='_blank'>protein</a>"
   var recordLink = '<a href="' + baseRecordUrl + '/gene/' + geneId + '">Gene Page</a>';
 
-  var gbLink = "<a href='" + baseUrl + "index.html?data=" + dataRoot + "&loc=" + loc + "'>JBrowse</a>";
+  var gbLink = "<a href='" + baseUrl + "index.html?data=" + dataRoot + "&loc=" + position + "'>JBrowse</a>";
   var orthomclLink = "<a href='http://orthomcl.org/cgi-bin/OrthoMclWeb.cgi?rm=sequenceList&groupac=" + orthomcl + "'>" + orthomcl + "</a>";
 
   // format into html table rows
