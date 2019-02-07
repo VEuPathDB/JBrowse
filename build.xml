@@ -46,7 +46,13 @@
       <fileset dir="${projectsDir}/JBrowse/plugins/multibigwig-master"/>
     </move>
 
-    <delete dir="${webappTargetDir}/jbrowse" followsymlinks="false" removeNotFollowedSymlinks="true"/>
+    <exec executable="rm"
+	  dir="${webappTargetDir}"
+	  failonerror="false"
+	  failifexecutionfails="true">
+      <arg line="-r"/>
+      <arg line="jbrowse"/>
+    </exec>
 
     <!-- cannot use ant copy because file permissions are not retained -->
     <exec executable="cp"
@@ -70,7 +76,7 @@
     <delete dir="${webappTargetDir}/jbrowse/node_modules"/>
 
     <copy file="${projectsDir}/JBrowse/Site/htdocs/index.html" tofile="${webappTargetDir}/jbrowse/index.html"/>
-    <copy file="${projectsDir}/JBrowse/Site/htdocs/apiGBrowsePopups.js" tofile="${webappTargetDir}/jbrowse/apiGBrowsePopups.js"/>
+    <copy file="${projectsDir}/JBrowse/Site/htdocs/apiJBrowsePopups.js" tofile="${webappTargetDir}/jbrowse/apiJBrowsePopups.js"/>
 
   </target>
   
