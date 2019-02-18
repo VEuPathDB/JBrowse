@@ -26,6 +26,11 @@
       <property name="project" value="JBrowse"/>
     </ant>
 
+    <!-- although JBrowse doesn't have component, but this call is needed to record build information. -->
+    <ant target="defaultComponentInstall">
+      <property name="project" value="JBrowse"/>
+    </ant>
+
   </target>
   
   <target name="JBrowse-WebInstallation" depends="JBrowse-Installation">
