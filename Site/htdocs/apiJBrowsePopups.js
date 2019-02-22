@@ -193,12 +193,14 @@ function gsnapIntronWidthFromScore( feature ) {
 }
 
 function gsnapIntronHeightFromPercent ( feature ) {
+    var goalHeight = gsnapIntronWidthFromScore(feature) * 2;
+
     var perc = feature.get('IntronPercent'); 
-    if(perc <= 5) return 10;
-    if(perc <= 20) return 11;
-    if(perc <= 60) return 13;
-    if(perc <= 80) return 14;
-    return 15;
+    if(perc <= 5) return goalHeight + 3;
+    if(perc <= 20) return goalHeight + 4;
+    if(perc <= 60) return goalHeight + 5;
+    if(perc <= 80) return goalHeight + 6;
+    return goalHeight + 7;
 }
 
 function gsnapIntronColorFromStrandAndScore( feature ) {
