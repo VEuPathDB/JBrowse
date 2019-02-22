@@ -185,3 +185,39 @@ function gsnapUnifiedIntronJunctionTitle (track, feature, featureDiv) {
 
 
 
+function gsnapIntronWidthFromScore( feature ) {
+    var sum = feature.get('TotalScore'); 
+    if(sum <= 4096) return 4;
+    if(sum <= 16000) return 8;
+    return 12;
+}
+
+function gsnapIntronHeightFromPercent ( feature ) {
+    var perc = feature.get('IntronPercent'); 
+    if(perc <= 5) return 10;
+    if(perc <= 20) return 11;
+    if(perc <= 60) return 13;
+    if(perc <= 80) return 14;
+    return 15;
+}
+
+function gsnapIntronColorFromStrandAndScore( feature ) {
+    var isReversed = feature.get('IsReversed'); 
+    var sum = feature.get('TotalScore'); 
+    if(isReversed == 1) {
+        if(sum <= 4) return 'rgb(255,219,219)';
+        if(sum <= 16) return 'rgb(255,182,182)';
+        if(sum <= 64) return 'rgb(255,146,146)';
+        if(sum <= 256) return 'rgb(255,109,109)';
+        if(sum <= 1024) return 'rgb(255,73,73)';
+        return 'rgb(255,36,36)';   
+    }
+    else {
+        if(sum <= 4) return 'rgb(219,219,255)';
+        if(sum <= 16) return 'rgb(182,182,255)';
+        if(sum <= 64) return 'rgb(146,146,255)';
+        if(sum <= 256) return 'rgb(109,109,255)';
+        if(sum <= 1024) return 'rgb(73,73,255)';
+        return 'rgb(36,36,255)';   
+    }
+}
