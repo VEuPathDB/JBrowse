@@ -28,7 +28,7 @@
 
   </target>
   
-  <target name="JBrowse-WebInstallation" depends="JBrowse-Installation">
+  <target name="JBrowse-WebInstallation" depends="JBrowse-Installation,installYarnBin">
 
     <!-- yarn install GMOD/jbrowse -->
     <exec executable="yarn"
