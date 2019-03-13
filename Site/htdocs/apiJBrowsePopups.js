@@ -318,3 +318,9 @@ function peakTitleChipSeq(track, feature, featureDiv) {
     return table(rows);
 }
 
+function positionAndSequence( track, f, featDiv ) {
+    container = dojo.create('div', { className: 'detail feature-detail feature-detail-'+track.name.replace(/\s+/g,'_').toLowerCase(), innerHTML: '' } );
+    track._renderCoreDetails( track, f, featDiv, container );
+    track._renderUnderlyingReferenceSequence( track, f, featDiv, container );
+    return container;
+}

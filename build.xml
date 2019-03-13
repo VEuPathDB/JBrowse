@@ -44,11 +44,18 @@
     </exec>
 
     <!-- multibigwig plugin -->
-
     <unzip src="${projectsDir}/JBrowse/plugins/multibigwig.zip" 
            dest="${projectsDir}/JBrowse/plugins/"/>
     <move todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/MultiBigWig">
       <fileset dir="${projectsDir}/JBrowse/plugins/multibigwig-master"/>
+    </move>
+
+
+    <!-- gccontent plugin -->
+    <unzip src="${projectsDir}/JBrowse/plugins/gccontent.zip" 
+           dest="${projectsDir}/JBrowse/plugins/"/>
+    <move todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/GCContent">
+      <fileset dir="${projectsDir}/JBrowse/plugins/gccontent-master"/>
     </move>
 
     <!-- Filters plugin -->
