@@ -223,3 +223,98 @@ function gsnapIntronColorFromStrandAndScore( feature ) {
         return 'rgb(36,36,255)';   
     }
 }
+
+
+function chipColor(feature) { 
+    var a = feature.get('Antibody');
+
+    if(!a) {
+      a = feature.get("immunoglobulin complex, circulating");
+    }
+    
+    var t = feature.get('Compound');
+    var r = feature.get('Replicate');
+    var g = feature.get('genotype information');
+    var l = feature.get('life cycle stage');
+    var anls = feature.get('name');
+
+    if(anls == 'H4_schizonti_smoothed (ChIP-chip)') return '#D80000';
+    if(anls == 'H4_trophozoite_smoothed (ChIP-chip)')  return '#006633';
+    if(anls == 'H4_ring_smoothed (ChIP-chip)') return '#27408B';
+    if(anls == 'H3K9ac_troph_smoothed (ChIP-chip)') return '#524818';
+
+    if(/CenH3_H3K9me2/i.test(a)) return '#000080';
+    if(/CenH3/i.test(a)) return '#B0E0E6';
+
+    if (/wild_type/i.test(g) && (/H3K/i.test(a) || /H4K/i.test(a))) return '#0A7D8C';
+    if (/sir2KO/i.test(g) && (/H3K/i.test(a) || /H4K/i.test(a))) return '#FF7C70';
+
+    if(/H3K4me3/i.test(a) && r == 'Replicate 1') return '#00FF00';
+    if(/H3K4me3/i.test(a) && r == 'Replicate 2') return '#00C896';
+    if(/H3k4me1/i.test(a) && r == 'Replicate 1') return '#0033FF';
+    if(/H3k4me1/i.test(a) && r == 'Replicate 2') return '#0066FF';
+
+
+    if(/H3K9/i.test(a) && r == 'Replicate 1') return '#C86400';
+    if(/H3K9/i.test(a) && r == 'Replicate 2') return '#FA9600';
+
+    if(/DMSO/i.test(t)) return '#4B0082';
+    if(/FR235222/i.test(t)) return '#F08080';
+
+    if(r == 'replicate1') return '#00C800';
+    if(r == 'replicate2') return '#FA9600';
+    if(r == 'replicate3') return '#884C00';
+
+    if(/early-log promastigotes/i.test(l)) return '#B22222';
+    if(/stationary promastigotes/i.test(l)) return '#4682B4'; 
+
+    if(/H3K4me3/i.test(a)) return '#00C800';
+    if(/H3K9Ac/i.test(a)) return '#FA9600';
+    if(/H3K9me3/i.test(a) ) return '#57178F';
+    if(/H3/i.test(a) ) return '#E6E600';
+    if(/H4K20me3/i.test(a)) return '#F00000';
+
+    if(/SET8/i.test(a) && r == 'Replicate 1' ) return '#600000';
+    if(/TBP1/i.test(a) && r == 'Replicate 1' ) return '#600000';
+    if(/TBP2/i.test(a) && r == 'Replicate 1' ) return '#600000';
+    if(/RPB9_RNA_pol_II/i.test(a) && r == 'Replicate 1' ) return '#600000';
+
+    if(/SET8/i.test(a) && r == 'Replicate 2' ) return '#C00000';
+    if(/TBP1/i.test(a) && r == 'Replicate 2' ) return '#C00000';
+    if(/TBP2/i.test(a) && r == 'Replicate 2' ) return '#C00000';
+    if(/RPB9_RNA_pol_II/i.test(a) && r == 'Replicate 2' ) return '#C00000';
+
+   return '#B84C00';
+}
+
+function peakTitleChipSeq(track, feature, featureDiv) {
+    var rows = new Array();
+
+    var start = feature.get("start");
+    var end = feature.get("end");
+
+    rows.push(twoColRow('Start:', start));
+    rows.push(twoColRow('End:', end));
+
+    var ontologyTermToDisplayName = {'antibody' : 'Antibody', 
+                                     'immunoglobulin complex, circulating' : 'Antibody',
+                                     'genotype information' : 'Genotype', 
+                                     'compound based treatment' : 'Treatment',
+                                     'replicate' : 'Replicate',
+                                     'life cycle stage' : 'Lifecycle Stage',
+                                     'strain'   : 'Strain',
+                                     'tag_count' : 'Normalised Tag Count',
+                                     'fold_change' : 'Fold Change',
+                                     'p_value' : 'P Value'};
+
+    for (var key in ontologyTermToDisplayName) {
+        var value = feature.get(key);
+        var displayName = ontologyTermToDisplayName[key];
+        if (value) {
+            rows.push(twoColRow(displayName + ':', value));
+        }
+    }
+
+    return table(rows);
+}
+
