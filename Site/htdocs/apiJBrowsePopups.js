@@ -225,6 +225,17 @@ function gsnapIntronColorFromStrandAndScore( feature ) {
 }
 
 
+function colorSegmentByScoreFxn(feature) {
+    var score = feature.get("score");
+    if (score > 60) return '#FF0000';
+    if (score > 50) return '#FF8000';
+    if (score > 40 ) return '#00FF00';
+    if (score > 30 ) return '#0000FF';
+    return '#000000';
+}
+
+
+
 function chipColor(feature) { 
     var a = feature.get('Antibody');
 
@@ -236,7 +247,7 @@ function chipColor(feature) {
     var r = feature.get('Replicate');
     var g = feature.get('genotype information');
     var l = feature.get('life cycle stage');
-    var anls = feature.get('name');
+    var anls = feature.get('sample_name');
 
     if(anls == 'H4_schizonti_smoothed (ChIP-chip)') return '#D80000';
     if(anls == 'H4_trophozoite_smoothed (ChIP-chip)')  return '#006633';
