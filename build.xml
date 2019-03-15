@@ -62,6 +62,10 @@
     <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/Filters">
       <fileset dir="${projectsDir}/JBrowse/plugins/Filters"/>
     </copy>  
+    <!-- SNPDiamond plugin -->
+    <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/SNPDiamond">
+      <fileset dir="${projectsDir}/JBrowse/plugins/SNPDiamond"/>
+    </copy>  
 
     <exec executable="rm"
 	  dir="${webappTargetDir}"

@@ -14,7 +14,6 @@ function fiveColRow(one, two, three, four, five) {
   return '<tr><td>' + one + '</td><td>' + two + '</td><td>' + three + '</td><td>' + four + '</td><td>' + five + '</td></tr>';
 }
 
-
 /******  utilities ******/
 
 positionString = function(refseq, start, end, strand)  {
@@ -99,30 +98,30 @@ function gene_title (tip, projectId, sourceId, chr, loc, soTerm, product, taxon,
 function gsnapUnifiedIntronJunctionTitle (track, feature, featureDiv) {
     var rows = new Array();
     //arrays
-    var exps = feature.get('Exps');
-    var samples = feature.get('Samples');
-    var urs = feature.get('URS');
-    var isrpm = feature.get('ISRPM');
-    var nrs =  feature.get('NRS');
-    var percSamp = feature.get('PerMaxSample'); 
-    var isrCovRatio = feature.get('IsrCovRatio'); 
-    var isrAvgCovRatio = feature.get('IsrAvgCovRatio'); 
-    var normIsrCovRatio = feature.get('NormIsrCovRatio'); 
-    var normIsrAvgCovRatio = feature.get('NormIsrAvgCovRatio'); 
-    var isrpmExpRatio = feature.get('IsrpmExpRatio'); 
-    var isrpmAvgExpRatio = feature.get('IsrpmAvgExpRatio'); 
+    var exps = feature.data["Exps"];
+    var samples = feature.data["Samples"];
+    var urs = feature.data["URS"];
+    var isrpm = feature.data["ISRPM"];
+    var nrs =  feature.data["NRS"];
+    var percSamp = feature.data["PerMaxSample"]; 
+    var isrCovRatio = feature.data["IsrCovRatio"]; 
+    var isrAvgCovRatio = feature.data["IsrAvgCovRatio"]; 
+    var normIsrCovRatio = feature.data["NormIsrCovRatio"]; 
+    var normIsrAvgCovRatio = feature.data["NormIsrAvgCovRatio"]; 
+    var isrpmExpRatio = feature.data["IsrpmExpRatio"]; 
+    var isrpmAvgExpRatio = feature.data["IsrpmAvgExpRatio"]; 
 
     //attributes
-    var totalScore = feature.get('TotalScore'); 
-    var intronPercent = feature.get('IntronPercent'); 
-    var intronRatio = feature.get('IntronRatio'); 
-    var matchesGeneStrand = feature.get('MatchesGeneStrand'); 
-    var isReversed = feature.get('IsReversed'); 
-    var annotIntron = feature.get('AnnotatedIntron'); 
-    var gene_source_id = feature.get('GeneSourceId'); 
+    var totalScore = feature.data["TotalScore"]; 
+    var intronPercent = feature.data["IntronPercent"]; 
+    var intronRatio = feature.data["IntronRatio"]; 
+    var matchesGeneStrand = feature.data["MatchesGeneStrand"]; 
+    var isReversed = feature.data["IsReversed"]; 
+    var annotIntron = feature.data["AnnotatedIntron"]; 
+    var gene_source_id = feature.data["GeneSourceId"]; 
 
-    var start = feature.get("start");
-    var end = feature.get("end");
+    var start = feature.data["start"];
+    var end = feature.data["end"];
 
     var exp_arr = exps.split('|');
     var sample_arr = samples.split('|');
@@ -186,7 +185,7 @@ function gsnapUnifiedIntronJunctionTitle (track, feature, featureDiv) {
 
 
 function gsnapIntronWidthFromScore( feature ) {
-    var sum = feature.get('TotalScore'); 
+    var sum = feature.data["TotalScore"]; 
     if(sum <= 4096) return 4;
     if(sum <= 16000) return 8;
     return 12;
@@ -195,7 +194,7 @@ function gsnapIntronWidthFromScore( feature ) {
 function gsnapIntronHeightFromPercent ( feature ) {
     var goalHeight = gsnapIntronWidthFromScore(feature) * 2;
 
-    var perc = feature.get('IntronPercent'); 
+    var perc = feature.data["IntronPercent"]; 
     if(perc <= 5) return goalHeight + 3;
     if(perc <= 20) return goalHeight + 4;
     if(perc <= 60) return goalHeight + 5;
@@ -204,8 +203,8 @@ function gsnapIntronHeightFromPercent ( feature ) {
 }
 
 function gsnapIntronColorFromStrandAndScore( feature ) {
-    var isReversed = feature.get('IsReversed'); 
-    var sum = feature.get('TotalScore'); 
+    var isReversed = feature.data["IsReversed"]; 
+    var sum = feature.data["TotalScore"]; 
     if(isReversed == 1) {
         if(sum <= 4) return 'rgb(255,219,219)';
         if(sum <= 16) return 'rgb(255,182,182)';
@@ -226,7 +225,7 @@ function gsnapIntronColorFromStrandAndScore( feature ) {
 
 
 function colorSegmentByScoreFxn(feature) {
-    var score = feature.get("score");
+    var score = feature.data["score"];
     if (score > 60) return '#FF0000';
     if (score > 50) return '#FF8000';
     if (score > 40 ) return '#00FF00';
@@ -237,17 +236,17 @@ function colorSegmentByScoreFxn(feature) {
 
 
 function chipColor(feature) { 
-    var a = feature.get('Antibody');
+    var a = feature.data["Antibody"];
 
     if(!a) {
-      a = feature.get("immunoglobulin complex, circulating");
+      a = feature.data["immunoglobulin complex, circulating"];
     }
     
-    var t = feature.get('Compound');
-    var r = feature.get('Replicate');
-    var g = feature.get('genotype information');
-    var l = feature.get('life cycle stage');
-    var anls = feature.get('sample_name');
+    var t = feature.data["Compound"];
+    var r = feature.data["Replicate"];
+    var g = feature.data['genotype information'];
+    var l = feature.data['life cycle stage'];
+    var anls = feature.data['sample_name'];
 
     if(anls == 'H4_schizonti_smoothed (ChIP-chip)') return '#D80000';
     if(anls == 'H4_trophozoite_smoothed (ChIP-chip)')  return '#006633';
@@ -301,8 +300,8 @@ function chipColor(feature) {
 function peakTitleChipSeq(track, feature, featureDiv) {
     var rows = new Array();
 
-    var start = feature.get("start");
-    var end = feature.get("end");
+    var start = feature.data["start"];
+    var end = feature.data["end"];
 
     rows.push(twoColRow('Start:', start));
     rows.push(twoColRow('End:', end));
@@ -319,7 +318,7 @@ function peakTitleChipSeq(track, feature, featureDiv) {
                                      'p_value' : 'P Value'};
 
     for (var key in ontologyTermToDisplayName) {
-        var value = feature.get(key);
+        var value = feature.data[key];
         var displayName = ontologyTermToDisplayName[key];
         if (value) {
             rows.push(twoColRow(displayName + ':', value));
@@ -334,4 +333,91 @@ function positionAndSequence( track, f, featDiv ) {
     track._renderCoreDetails( track, f, featDiv, container );
     track._renderUnderlyingReferenceSequence( track, f, featDiv, container );
     return container;
+}
+
+
+function snpBgFromIsCodingAndNonSyn(feature) {
+  var isCoding = feature.data["IsCoding"]; 
+  var color = 'white';
+  if (isCoding == 1 || /yes/i.test(isCoding)) {
+    var nonSyn = feature.data["NonSyn"];
+    var nonsense = feature.data["Nonsense"]; 
+    color = nonsense == 1 ? 'red' : nonSyn == 1  ? 'blue' : 'lightblue'; 
+  }
+  return color; 
+}
+
+
+function snpTitle(track, feature, featureDiv) {
+  var rows = new Array();
+  var gene = feature.data["Gene"]; 
+  var isCoding = feature.data["IsCoding"]; 
+  var nonSyn = feature.data["NonSyn"]; 
+  var nonsense = feature.data["Nonsense"]; 
+  var rend = feature.data["rend"]; 
+  var base_start = feature.data["base_start"];
+  zoom_level = rend - base_start; 
+  var position_in_CDS = feature.data["position_in_CDS"];
+  var position_in_protein = feature.data["position_in_protein"];
+  var reference_strain = feature.data["reference_strain"];
+  var reference_aa = feature.data["reference_aa"];
+  var gene_strand = feature.data["gene_strand"];
+  var reference_na = feature.data["reference_na"];
+  var major_allele = feature.data["major_allele"];
+  var minor_allele = feature.data["minor_allele"];
+  var major_allele_count = feature.data["major_allele_count"];
+  var minor_allele_count = feature.data["minor_allele_count"];
+  var major_allele_freq = feature.data["major_allele_freq"];
+  var minor_allele_freq = feature.data["minor_allele_freq"];
+  var major_product = feature.data["major_product"];
+  var minor_product = feature.data["minor_product"];
+  var source_id = feature.data["source_id"];
+  var link_type = feature.data["type"];
+
+  var start = feature.data["start"];
+
+  var revArray = { 'A' : 'T', 'C' : 'G', 'T' : 'A', 'G' : 'C' };
+
+  var link = "<a href='/a/app/record/" + link_type + "/" + source_id + "'>" + source_id + "</a>";
+         
+  var type = 'Non-coding';
+  var refNA = gene_strand == -1 ? revArray[reference_na] : reference_na;
+
+  var num_strains = major_allele_count + minor_allele_count;
+
+  var testNA = reference_na;
+
+  var refAAString = ''; 
+  if (isCoding == 1 || /yes/i.test(isCoding)) {
+     type = "Coding (" + (nonsense == 1 ? "nonsense)" : nonSyn ? "non-synonymous)" : "synonymous)");
+     refAAString = "&nbsp;&nbsp;&nbsp;&nbsp;AA=" + reference_aa;
+     minor_product = nonsense == 1 || nonSyn == 1 ? minor_product : major_product;
+   }else{
+     minor_product = '&nbsp';
+   }
+
+
+  rows.push(twoColRow("SNP:", link));
+  rows.push(twoColRow("Location:", start));
+  if(gene) rows.push(twoColRow("Gene:", gene));
+
+  if (isCoding == 1 || /yes/i.test(isCoding)) {
+      rows.push(twoColRow("Position&nbsp;in&nbsp;CDS", position_in_CDS));
+      rows.push(twoColRow("Position&nbsp;in&nbsp;protein", position_in_protein));
+  }
+
+  rows.push(twoColRow("Type:", type));
+  rows.push(twoColRow("Number of strains:", num_strains));
+  rows.push(twoColRow(" ", 'NA&nbsp;&nbsp;&nbsp;'+ (isCoding == 1  ? 'AA&nbsp;&nbsp;&nbsp;(frequency)' : '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(frequency)')));
+  rows.push(twoColRow(reference_strain + "&nbsp;(reference):", "&nbsp;" + refNA + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp" + reference_aa));
+
+  
+  if(gene_strand == -1) major_allele = revArray[major_allele]; 
+  if(gene_strand == -1) minor_allele = revArray[minor_allele];
+
+
+  rows.push(twoColRow("Major Allele:", "&nbsp;" + major_allele + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + major_product + "&nbsp;&nbsp;&nbsp;&nbsp;(" + major_allele_freq + ")"));
+  rows.push(twoColRow("Minor Allele:", "&nbsp;" + minor_allele + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + minor_product + "&nbsp;&nbsp;&nbsp;&nbsp;(" + minor_allele_freq + ")"));
+
+  return table(rows);
 }
