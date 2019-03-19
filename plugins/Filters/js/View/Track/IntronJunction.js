@@ -20,7 +20,7 @@ function(
                 onClick: function() {
                     if(this.checked) {
                         thisB.addFeatureFilter(function(feat) {
-                            return feat.get('AnnotatedIntron') == 'Yes'; 
+                            return feat.data['AnnotatedIntron'] == 'Yes'; 
                         }, 'annotatedFilter');
                     }
                     else {
@@ -38,7 +38,7 @@ function(
                 onClick: function() {
                     if(this.checked) {
                         thisB.addFeatureFilter(function(feat) {
-                            return feat.get('AnnotatedIntron') == 'No'; 
+                            return feat.data['AnnotatedIntron'] == 'No'; 
                         }, 'novelFilter');
                     }
                     else {
