@@ -8,19 +8,17 @@ define(['dojo/_base/declare',
 return declare(Box, {
 
     renderBox: function( context, viewInfo, feature, top, overallHeight, parentFeature, style ) {
-        var left  = viewInfo.block.bpToX( feature.get('start') );
+        var left  = viewInfo.block.bpToX( feature.get('end') );
 
         // add a padding because diamonds don't work for very small locations
-        left = left - 10;
-        var width = viewInfo.block.bpToX( feature.get('end') ) - left;
 
-        //left = Math.round( left );
-        //width = Math.round( width );
+        var width = viewInfo.block.bpToX( feature.get('start') ) - left;
 
         style = style || lang.hitch( this, 'getStyle' );
 
         var height = this._getFeatureHeight( viewInfo, feature );
-        if( ! height )
+	
+	if( ! height )
             return;
         if( height != overallHeight )
             top += Math.round( (overallHeight - height)/2 );
