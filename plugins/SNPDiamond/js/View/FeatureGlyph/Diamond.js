@@ -8,11 +8,15 @@ define(['dojo/_base/declare',
 return declare(Box, {
 
     renderBox: function( context, viewInfo, feature, top, overallHeight, parentFeature, style ) {
-        var left  = viewInfo.block.bpToX( feature.get('end') );
+        var left  = viewInfo.block.bpToX( feature.get('start') );
 
         // add a padding because diamonds don't work for very small locations
 
-        var width = viewInfo.block.bpToX( feature.get('start') ) - left;
+	// note that browser positions are between the designated position and 1 after that
+	// thus the position was change to -1 in query, but then reverted back to original number
+	// for pop-up info
+
+        var width = viewInfo.block.bpToX( feature.get('end') ) - left;
 
         style = style || lang.hitch( this, 'getStyle' );
 
