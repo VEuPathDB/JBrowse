@@ -11,16 +11,18 @@ return declare(Box, {
         var left  = viewInfo.block.bpToX( feature.get('start') );
 
         // add a padding because diamonds don't work for very small locations
-        left = left - 10;
-        var width = viewInfo.block.bpToX( feature.get('end') ) - left;
 
-        //left = Math.round( left );
-        //width = Math.round( width );
+	// note that browser positions are between the designated position and 1 after that
+	// thus the position was change to -1 in query, but then reverted back to original number
+	// for pop-up info
+
+        var width = viewInfo.block.bpToX( feature.get('end') ) - left;
 
         style = style || lang.hitch( this, 'getStyle' );
 
         var height = this._getFeatureHeight( viewInfo, feature );
-        if( ! height )
+	
+	if( ! height )
             return;
         if( height != overallHeight )
             top += Math.round( (overallHeight - height)/2 );
