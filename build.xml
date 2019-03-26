@@ -50,6 +50,12 @@
       <fileset dir="${projectsDir}/JBrowse/plugins/multibigwig-master"/>
     </move>
 
+    <!-- smallrna plugin -->
+    <unzip src="${projectsDir}/JBrowse/plugins/smallrna.zip" 
+           dest="${projectsDir}/JBrowse/plugins/"/>
+    <move todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/SmallRNAPlugin">
+      <fileset dir="${projectsDir}/JBrowse/plugins/jbplugin-smallrna-master"/>
+    </move>
 
     <!-- gccontent plugin -->
     <unzip src="${projectsDir}/JBrowse/plugins/gccontent.zip" 
