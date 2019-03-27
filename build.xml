@@ -72,6 +72,10 @@
     <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/SNPDiamond">
       <fileset dir="${projectsDir}/JBrowse/plugins/SNPDiamond"/>
     </copy>  
+    <!-- EuPath Theme plugin -->
+    <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/EuPathTheme">
+      <fileset dir="${projectsDir}/JBrowse/plugins/EuPathTheme"/>
+    </copy>  
 
     <exec executable="rm"
 	  dir="${webappTargetDir}"
