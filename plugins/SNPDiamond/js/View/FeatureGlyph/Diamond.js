@@ -9,19 +9,18 @@ return declare(Box, {
 
     renderBox: function( context, viewInfo, feature, top, overallHeight, parentFeature, style ) {
         var left  = viewInfo.block.bpToX( feature.get('start') );
-
-        // add a padding because diamonds don't work for very small locations
-
-	// note that browser positions are between the designated position and 1 after that
-	// thus the position was change to -1 in query, but then reverted back to original number
-	// for pop-up info
-
         var width = viewInfo.block.bpToX( feature.get('end') ) - left;
+
+        // add some padding;  width is pixels per one bp for SNPs
+        if(width <= 5) {
+            width = width + 5;
+            left = left - 2.5;
+        }
 
         style = style || lang.hitch( this, 'getStyle' );
 
         var height = this._getFeatureHeight( viewInfo, feature );
-	
+
 	if( ! height )
             return;
         if( height != overallHeight )
