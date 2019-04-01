@@ -13,7 +13,7 @@ var profile = {
 
     basePath: '../../../src',
     packages: [
-        {name: 'EuPathTheme', location: '../plugins/EuPathTheme/js' }
+        {name: 'EbrcTheme', location: '../plugins/EbrcTheme/js' }
     ],
 
     layerOptimize: 'closure',
@@ -21,9 +21,9 @@ var profile = {
     selectorEngine: 'acme',
 
     layers: {
-        'EuPathTheme/main': {
+        'EbrcTheme/main': {
             include: [
-                'EuPathTheme',
+                'EbrcTheme',
             ],
             exclude: [ 'JBrowse' ]
         }
@@ -56,7 +56,7 @@ var profile = {
 
         // Files that should not be copied when the “mini” compiler flag is set to true.
         miniExclude: function (filename, mid) {
-            return ! ( /^EuPathTheme/.test(mid) );
+            return ! ( /^EbrcTheme/.test(mid) );
         }
     }
 };
