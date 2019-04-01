@@ -12,7 +12,7 @@ return declare( JBrowsePlugin,
         var browser = args.browser;
 
         // do anything you need to initialize your plugin here
-        console.log( "SNPDiamond plugin starting" );
+        console.log( "EbrcFeatureGlyphs plugin starting" );
 
     }
 });

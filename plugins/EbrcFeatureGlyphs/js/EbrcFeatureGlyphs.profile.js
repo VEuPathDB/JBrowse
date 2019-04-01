@@ -13,7 +13,7 @@ var profile = {
 
     basePath: '../../../src',
     packages: [
-        {name: 'SNPDiamond', location: '../plugins/SNPDiamond/js' }
+        {name: 'EbrcFeatureGlyphs', location: '../plugins/EbrcFeatureGlyphs/js' }
     ],
 
     layerOptimize: 'closure',
@@ -21,9 +21,9 @@ var profile = {
     selectorEngine: 'acme',
 
     layers: {
-        'SNPDiamond/main': {
+        'EbrcFeatureGlyphs/main': {
             include: [
-                'SNPDiamond',
+                'EbrcFeatureGlyphs',
             ],
             exclude: [ 'JBrowse' ]
         }
@@ -56,7 +56,7 @@ var profile = {
 
         // Files that should not be copied when the “mini” compiler flag is set to true.
         miniExclude: function (filename, mid) {
-            return ! ( /^SNPDiamond/.test(mid) );
+            return ! ( /^EbrcFeatureGlyphs/.test(mid) );
         }
     }
 };

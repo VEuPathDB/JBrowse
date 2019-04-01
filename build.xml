@@ -68,9 +68,9 @@
     <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/EbrcTracks">
       <fileset dir="${projectsDir}/JBrowse/plugins/EbrcTracks"/>
     </copy>  
-    <!-- SNPDiamond plugin -->
-    <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/SNPDiamond">
-      <fileset dir="${projectsDir}/JBrowse/plugins/SNPDiamond"/>
+    <!-- EbrcFeatureGlyphs plugin -->
+    <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/EbrcFeatureGlyphs">
+      <fileset dir="${projectsDir}/JBrowse/plugins/EbrcFeatureGlyphs"/>
     </copy>  
     <!-- Ebrc Theme plugin -->
     <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/EbrcTheme">
