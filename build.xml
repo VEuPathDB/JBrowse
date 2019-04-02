@@ -64,17 +64,17 @@
       <fileset dir="${projectsDir}/JBrowse/plugins/gccontent-master"/>
     </move>
 
-    <!-- Filters plugin -->
-    <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/Filters">
-      <fileset dir="${projectsDir}/JBrowse/plugins/Filters"/>
+    <!-- EbrcTracks plugin -->
+    <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/EbrcTracks">
+      <fileset dir="${projectsDir}/JBrowse/plugins/EbrcTracks"/>
     </copy>  
-    <!-- SNPDiamond plugin -->
-    <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/SNPDiamond">
-      <fileset dir="${projectsDir}/JBrowse/plugins/SNPDiamond"/>
+    <!-- EbrcFeatureGlyphs plugin -->
+    <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/EbrcFeatureGlyphs">
+      <fileset dir="${projectsDir}/JBrowse/plugins/EbrcFeatureGlyphs"/>
     </copy>  
-    <!-- EuPath Theme plugin -->
-    <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/EuPathTheme">
-      <fileset dir="${projectsDir}/JBrowse/plugins/EuPathTheme"/>
+    <!-- Ebrc Theme plugin -->
+    <copy todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/EbrcTheme">
+      <fileset dir="${projectsDir}/JBrowse/plugins/EbrcTheme"/>
     </copy>  
 
     <exec executable="rm"
