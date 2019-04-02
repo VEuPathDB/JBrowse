@@ -13,7 +13,7 @@ var profile = {
 
     basePath: '../../../src',
     packages: [
-        {name: 'Filters', location: '../plugins/Filters/js' }
+        {name: 'EbrcTracks', location: '../plugins/EbrcTracks/js' }
     ],
 
     layerOptimize: 'closure',
@@ -21,9 +21,9 @@ var profile = {
     selectorEngine: 'acme',
 
     layers: {
-        'Filters/main': {
+        'EbrcTracks/main': {
             include: [
-                'Filters',
+                'EbrcTracks',
             ],
             exclude: [ 'JBrowse' ]
         }
@@ -56,7 +56,7 @@ var profile = {
 
         // Files that should not be copied when the “mini” compiler flag is set to true.
         miniExclude: function (filename, mid) {
-            return ! ( /^Filters/.test(mid) );
+            return ! ( /^EbrcTracks/.test(mid) );
         }
     }
 };

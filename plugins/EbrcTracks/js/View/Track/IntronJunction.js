@@ -1,14 +1,16 @@
 define([
     'dojo/_base/declare',
+    'dojo/_base/lang',
     'JBrowse/View/Track/HTMLFeatures'
 ],
 function(
     declare,
+    lang,
     HTMLFeatures
 ) {
     return declare(HTMLFeatures, {
-        constructor: function() {
-            console.log('FilterFeature track added');
+        extendedInit: function() {
+            this.glyphHeightPad = -10;
         },
         _trackMenuOptions: function() {
             var opts = this.inherited(arguments);
