@@ -85,6 +85,15 @@
       <arg line="jbrowse"/>
     </exec>
 
+
+    <!-- setup.sh -->
+    <exec executable="/bin/bash"
+      dir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse"
+      failonerror="true"
+      failifexecutionfails="true">
+           <arg line="setup.sh"/>
+    </exec>
+
     <!-- cannot use ant copy because file permissions are not retained -->
     <exec executable="cp"
       dir="${projectsDir}/JBrowse"
@@ -95,13 +104,6 @@
            <arg line="${webappTargetDir}/jbrowse"/>
     </exec>
 
-    <!-- setup.sh -->
-    <exec executable="/bin/bash"
-      dir="${webappTargetDir}/jbrowse"
-      failonerror="true"
-      failifexecutionfails="true">
-           <arg line="setup.sh"/>
-    </exec>
 
 
   </target>
