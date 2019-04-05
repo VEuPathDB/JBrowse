@@ -55,8 +55,6 @@ return declare( ActionBarDialog, {
             checked: false,
         });
 
-        console.log(this.checkBox);
-
         this.set('content', [
                      dom.create( 'span', { innerHTML: this.msg||'Log scale: ' } ),
                      this.checkBox.domNode
