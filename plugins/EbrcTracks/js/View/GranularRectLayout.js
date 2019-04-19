@@ -11,7 +11,6 @@ function (
     constructor(args) {
         // stuff for subtracks
         this.sTop = args.sTop || 0;
-        this.subtrackLabel = args.subtrackLabel;
         this.featureFilters = args.featureFilters;
         this.hasAdjustedTop = false;
 

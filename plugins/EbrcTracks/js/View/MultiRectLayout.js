@@ -22,17 +22,10 @@ function (
 
         this.subtracks = args.subtracks;
 
-        var layouts = [];
-
         thisB = this;
-        array.forEach(this.subtracks, function(subtrack) {
-            if(subtrack.visible) {
-                var layout = new Layout({ subtrackLabel: subtrack.label, pitchX: thisB.pitchX, pitchY: thisB.pitchY, displayMode: thisB.displayMode, featureFilters: subtrack.featureFilters });
-                layouts.push(layout);
-            }
+        this.layouts = array.map(this.subtracks, function(subtrack) {
+                return new Layout({ pitchX: thisB.pitchX, pitchY: thisB.pitchY, displayMode: thisB.displayMode, featureFilters: subtrack.featureFilters });
         });
-
-        this.layouts = layouts;
     },
 
     getLayoutForFeature(feature) {

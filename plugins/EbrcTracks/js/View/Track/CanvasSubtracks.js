@@ -24,17 +24,15 @@ function (
 ) {
     return declare(CanvasFeatures, {
         constructor: function () {
-            this.labels = {};
-            this.labelsCompleted = new Deferred();
-            var thisB = this;
-            if (this.config.sublabels) {
-                this.config.sublabels.forEach(function (elt) {
-                    this.labels[elt.name] = elt;
-                }, this);
-                this.labelsCompleted.resolve('success');
-            } else {
-                this.labelsCompleted.resolve('success');
-            }
+
+            var subtracks = [];
+            array.forEach(this.getConf('subtracks'), function(subtrack) {
+                if(subtrack.visible) {
+                    subtracks.push(subtrack);
+                }
+            });
+
+            this.subtracks = subtracks;
         },
 
         _defaultConfig: function () {
@@ -50,7 +48,7 @@ function (
         _getLayout: function (scale) {
             if( ! this.layout || this._layoutpitchX != 1/scale ) {
                 var pitchY = this.getConf('layoutPitchY') || 6;
-                this.layout = new MultiRectLayout({ pitchX: 1/scale, pitchY: pitchY, maxHeight: this.getConf('maxHeight'), displayMode: this.displayMode, subtracks: this.getConf('subtracks') });
+                this.layout = new MultiRectLayout({ pitchX: 1/scale, pitchY: pitchY, maxHeight: this.getConf('maxHeight'), displayMode: this.displayMode, subtracks: this.subtracks });
                 this._layoutpitchX = 1/scale;
             }
             return this.layout;
@@ -62,11 +60,14 @@ function (
             var multiLayout = this.layout;
             var prevPtotalHeight = 0;
 
+            thisB = this;
             // loop over sublayouts to get the height and update the top for each
             // Do this once, not per region
+            var i = 0;
             array.forEach(multiLayout.layouts, function( layout ) {
                 if(!layout.hasAdjustedTop) {
                     layout.sTop = prevPtotalHeight;
+                    thisB.subtracks[i].top = prevPtotalHeight * layout.pitchY;
 
                     var pTot = layout.pTotalHeight;
 
@@ -75,6 +76,8 @@ function (
                     layout.rectangles = {};
                     layout.bitmap = [];
                     layout.pTotalHeight = 0;
+
+                    i++;
                 }
 
                 layout.hasAdjustedTop = true;
@@ -106,6 +109,61 @@ function (
                 });
             }
         },
+
+        makeTrackLabel: function () {
+            var thisB = this;
+            var c = this.config;
+            this.inherited(arguments);
+
+            if (this.config.showLabels || this.config.showTooltips) {
+
+                this.sublabels = array.map(this.subtracks, function (elt) {
+
+                    var htmlnode = dojo.create('div', {
+                        className: 'track-sublabel',
+                        id: thisB.config.label + '_' + elt.label,
+                        style: {
+                            position: 'absolute',
+                            height: '15px',
+                            font: thisB.config.labelFont,
+                            backgroundColor: '#DCDCDC',
+                            opacity: 0.6,
+                            visibility: 'hidden'
+                        },
+                        innerHTML: elt.label
+                    }, thisB.div);
+
+                    on(htmlnode, c.clickTooltips ? 'click' : 'mouseover', function () {
+                        Tooltip.show(elt.label + '<br />', htmlnode);
+                    });
+                    on(htmlnode, 'mouseleave', function () {
+                        Tooltip.hide(htmlnode);
+                    });
+
+                    return htmlnode;
+                });
+            }
+        },
+
+
+        updateStaticElements: function (/** Object*/ coords) {
+            this.inherited(arguments);
+            thisB = this;
+
+            if (this.sublabels && 'x' in coords) {
+                array.forEach(this.sublabels, function (sublabel, i) {
+                    sublabel.style.left = coords.x + 'px';
+                    sublabel.style.top = thisB.subtracks[i].top  + 'px';
+                    if(thisB.displayMode == 'normal') { 
+                        sublabel.style.visibility = 'visible';
+                    } 
+                    else {
+                        sublabel.style.visibility = 'hidden';
+                    }
+
+                }, this);
+            }
+        }
 
 
     });
