@@ -12,8 +12,6 @@ function (
         // stuff for subtracks
         this.sTop = args.sTop || 0;
         this.featureFilters = args.featureFilters;
-        this.hasAdjustedTop = false;
-
 
         this.pitchX = args.pitchX || 10
         this.pitchY = args.pitchY || 10
@@ -31,6 +29,7 @@ function (
         this.bitmap = []
         this.rectangles = {}
         this.maxHeight = Math.ceil((args.maxHeight || Infinity) / this.pitchY)
+
         this.pTotalHeight = 0 // total height, in units of bitmap squares (px/pitchY)
     },
 
@@ -44,7 +43,7 @@ function (
 
             // add it to the bitmap again, since that bitmap range may have been discarded
             this._addRectToBitmap(storedRec, data)
-            return storedRec.top * this.pitchY
+            return storedRec.top * this.pitchY;
         }
 
         const pLeft = Math.floor(left / this.pitchX)
@@ -68,12 +67,13 @@ function (
             this.pTotalHeight = Math.max(this.pTotalHeight || 0, top + pHeight)
             return null
         }
-        rectangle.top = top
+        rectangle.top = top;
         this._addRectToBitmap(rectangle, data)
         this.rectangles[id] = rectangle
         this.pTotalHeight = Math.max(this.pTotalHeight || 0, top + pHeight)
         // console.log(`G2 ${data.get('name')} ${top}`)
-        return top * this.pitchY
+
+        return top * this.pitchY;
     }
 
 
