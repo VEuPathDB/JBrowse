@@ -22,9 +22,19 @@ function (
 
         this.subtracks = args.subtracks;
 
-        thisB = this;
+        var thisB = this;
+
+        var top = 0
+        var sumHeights = 0;
+
         this.layouts = array.map(this.subtracks, function(subtrack) {
-                return new Layout({ pitchX: thisB.pitchX, pitchY: thisB.pitchY, displayMode: thisB.displayMode, featureFilters: subtrack.featureFilters });
+            top = sumHeights
+            subtrack.top = top * thisB.pitchY;
+
+            var subtrackHeight = subtrack.height || 10;
+            sumHeights = sumHeights + subtrackHeight;
+
+            return new Layout({ sTop: top, pitchX: thisB.pitchX, pitchY: thisB.pitchY, displayMode: thisB.displayMode, featureFilters: subtrack.featureFilters });
         });
     },
 
@@ -48,8 +58,7 @@ function (
         if(layout) {
             return layout.addRect(id, left, right, height, feature);
         }
-        console.log("WARN:  Feature not sorted into subtrack... SKIP");
-        console.log(feature);
+        console.log("WARN:  Feature not sorted into subtrack... SKIPPING:" + feature.data['name']);
     },
 
     getTotalHeight() {

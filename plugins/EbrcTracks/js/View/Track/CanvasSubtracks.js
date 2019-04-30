@@ -33,6 +33,7 @@ function (
             });
 
             this.subtracks = subtracks;
+
         },
 
         _defaultConfig: function () {
@@ -51,64 +52,10 @@ function (
                 this.layout = new MultiRectLayout({ pitchX: 1/scale, pitchY: pitchY, maxHeight: this.getConf('maxHeight'), displayMode: this.displayMode, subtracks: this.subtracks });
                 this._layoutpitchX = 1/scale;
             }
+
             return this.layout;
         },
 
-        // draw the features on the canvas
-        renderFeatures: function( args, fRects ) {
-
-            var multiLayout = this.layout;
-            var prevPtotalHeight = 0;
-
-            thisB = this;
-            // loop over sublayouts to get the height and update the top for each
-            // Do this once, not per region
-            var i = 0;
-            array.forEach(multiLayout.layouts, function( layout ) {
-                if(!layout.hasAdjustedTop) {
-                    layout.sTop = prevPtotalHeight;
-                    thisB.subtracks[i].top = prevPtotalHeight * layout.pitchY;
-
-                    var pTot = layout.pTotalHeight;
-
-                    prevPtotalHeight = pTot + prevPtotalHeight + multiLayout.pitchY;
-
-                    layout.rectangles = {};
-                    layout.bitmap = [];
-                    layout.pTotalHeight = 0;
-
-                    i++;
-                }
-
-                layout.hasAdjustedTop = true;
-            });
-
-            var context = this.getRenderingContext( args );
-            if( context ) {
-                var thisB = this;
-                array.forEach( fRects, function( fRect ) {
-                    if( fRect )
-                        var layout = multiLayout.getLayoutForFeature(fRect.f);
-                        if(layout) {
-                            var scale = fRect.viewInfo.scale;
-                            var leftBase = fRect.viewInfo.leftBase;
-                            var startbp = fRect.l/scale + leftBase;
-                            var endbp   = (fRect.l+fRect.w)/scale + leftBase;
-
-                            var top = layout.addRect(
-                                fRect.f.id(),
-                                startbp,
-                                endbp,
-                                fRect.h,
-                                fRect.f
-                            );
-
-                            fRect.t = top;
-                            thisB.renderFeature( context, fRect );
-                        }
-                });
-            }
-        },
 
         makeTrackLabel: function () {
             var thisB = this;
@@ -148,8 +95,8 @@ function (
 
         updateStaticElements: function (/** Object*/ coords) {
             this.inherited(arguments);
-            thisB = this;
-
+            var thisB = this;
+            
             if (this.sublabels && 'x' in coords) {
                 array.forEach(this.sublabels, function (sublabel, i) {
                     sublabel.style.left = coords.x + 'px';
@@ -163,7 +110,8 @@ function (
 
                 }, this);
             }
-        }
+        },
+
 
 
     });
