@@ -27,10 +27,11 @@ function (
 
         // override getLayout to access addRect method
         _getLayout: function (scale) {
-            if( ! this.layout || this._layoutpitchX != 1/scale ) {
-                var pitchY = this.getConf('layoutPitchY') || 6;
-                this.layout = new MultiRectLayoutSynteny({ pitchX: 1/scale, pitchY: pitchY, maxHeight: this.getConf('maxHeight'), displayMode: this.displayMode, subtracks: this.subtracks, geneGroupAttributeName: "soTerm" });
-                this._layoutpitchX = 1/scale;
+            var thisB = this;
+            if( ! thisB.layout || thisB._layoutpitchX != 1/scale ) {
+                var pitchY = thisB.getConf('layoutPitchY') || 6;
+                thisB.layout = new MultiRectLayoutSynteny({ pitchX: 1/scale, pitchY: pitchY, maxHeight: thisB.getConf('maxHeight'), displayMode: thisB.displayMode, subtracks: thisB.subtracks, geneGroupAttributeName: thisB.getConf('geneGroupAttributeName') });
+                thisB._layoutpitchX = 1/scale;
             }
             return this.layout;
         },
