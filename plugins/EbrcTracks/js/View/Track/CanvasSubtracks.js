@@ -74,7 +74,7 @@ function (
                             height: '15px',
                             font: thisB.config.labelFont,
                             backgroundColor: '#DCDCDC',
-                            opacity: 0.6,
+//                            opacity: 0.6,
                             visibility: 'hidden'
                         },
                         innerHTML: elt.label
