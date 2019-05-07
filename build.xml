@@ -33,15 +33,7 @@
 
   </target>
   
-  <target name="JBrowse-WebInstallation" depends="JBrowse-Installation,installYarnBin">
-
-    <!-- yarn install GMOD/jbrowse -->
-    <exec executable="yarn"
-      dir="${projectsDir}/JBrowse"
-      failonerror="true"
-      failifexecutionfails="true">
-           <arg line="install"/>
-    </exec>
+  <target name="JBrowse-WebInstallation" depends="JBrowse-Installation">
 
     <!-- multibigwig plugin -->
     <unzip src="${projectsDir}/JBrowse/plugins/multibigwig.zip" 
