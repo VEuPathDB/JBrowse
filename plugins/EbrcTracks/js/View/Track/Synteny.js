@@ -23,7 +23,10 @@ function (
     return declare(CanvasSubtracks, {
         constructor: function () {
             console.log("Synteny Tracks");
+            this.showLabels = false;
         },
+
+
 
         // override getLayout to access addRect method
         _getLayout: function (scale) {
@@ -38,6 +41,8 @@ function (
 
 
         renderSynteny: function() {
+
+
             var multiLayout = this.layout;
 
             var layoutCount = multiLayout.layouts.length;
@@ -86,12 +91,16 @@ function (
                                     //                                    thisB.renderSynteny(rectangle, orthologRectangle);
 
                                     var fStartX = block.bpToX(rectangle.data.data.start);
+//                                    var fStartX = block.bpToX(rectangle.data.get("start"));
                                     var fEndX = block.bpToX(rectangle.data.data.end);
-                                    var fY = (rectangle.top * pitchY) + rectangle.h;
+//                                    var fEndX = block.bpToX(rectangle.data.get("end"));
+                                    var fY = (rectangle.top * pitchY) + (rectangle.h * pitchY);
 
 
                                     var oStartX = block.bpToX(orthologRectangle.data.data.start);
+//                                    var oStartX = block.bpToX(orthologRectangle.data.get("start"));
                                     var oEndX = block.bpToX(orthologRectangle.data.data.end);
+//                                    var oEndX = block.bpToX(orthologRectangle.data.get("end"));
                                     var oY = orthologRectangle.top * pitchY;
 
                                     
@@ -104,6 +113,7 @@ function (
                                     context.closePath();
                                     context.stroke();
                                     context.fillStyle = "grey";
+
                                     context.globalAlpha = 0.1;
                                     context.fill();
 

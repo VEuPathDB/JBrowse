@@ -29,13 +29,14 @@ function (
               }
 
               var geneGroup = feature.data[thisB.geneGroupAttributeName];
+//              var geneGroup = feature.get(thisB.geneGroupAttributeName);
               var featureId = feature.id();
 
-              if(!layout.geneGroupMap[geneGroup]) {
+              if(geneGroup && !layout.geneGroupMap[geneGroup]) {
                   layout.geneGroupMap[geneGroup] = [];
               }
 
-              if(!layout.featureIdMap[featureId]) {
+              if(geneGroup && !layout.featureIdMap[featureId]) {
                   layout.geneGroupMap[geneGroup].push(featureId);
                   layout.featureIdMap[featureId] = geneGroup;
               }
