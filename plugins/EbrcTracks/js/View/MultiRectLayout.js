@@ -31,7 +31,7 @@ function (
             top = sumHeights
             subtrack.top = top * thisB.pitchY;
 
-            var subtrackHeight = subtrack.height || 10;
+            var subtrackHeight = subtrack.height || 5;
             sumHeights = sumHeights + subtrackHeight;
 
             return new Layout({ sTop: top, pitchX: thisB.pitchX, pitchY: thisB.pitchY, displayMode: thisB.displayMode, featureFilters: subtrack.featureFilters });
