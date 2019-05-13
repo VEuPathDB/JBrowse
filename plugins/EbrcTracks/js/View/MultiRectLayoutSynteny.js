@@ -44,7 +44,6 @@ function (
               return layout.addRect(id, left, right, height, feature);
           }
           console.log("WARN:  Feature not sorted into subtrack... SKIP");
-          console.log(feature);
       },
       
   })
