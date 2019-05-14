@@ -24,14 +24,18 @@ function (
 ) {
     return declare(CanvasFeatures, {
         constructor: function () {
-
             var subtracks = [];
             array.forEach(this.getConf('subtracks'), function(subtrack) {
-                if(subtrack.visible) {
+                var visible = subtrack.visible === 'true' ? true : 
+                              subtrack.visible === 'false' ? false :
+                              subtrack.visible;
+
+                if(visible) {
                     subtracks.push(subtrack);
                 }
             });
 
+            this.minSubtrackHeight = 3;
             this.subtracks = subtracks;
 
         },
@@ -125,6 +129,9 @@ function (
             array.forEach(thisB.layout.layouts, function (layout, i) {
                 var subtrackHeight = thisB.subtracks[i].height;
                 var actualSubtrackHeight = layout.pTotalHeight - layout.sTop + 1;
+
+                actualSubtrackHeight = actualSubtrackHeight < thisB.minSubtrackHeight ? thisB.minSubtrackHeight : actualSubtrackHeight;
+
                 if(actualSubtrackHeight != subtrackHeight) {
                     thisB.subtracks[i].height = actualSubtrackHeight;
                     redraw = true;
@@ -135,7 +142,7 @@ function (
                 sumHeights = sumHeights + thisB.subtracks[i].height;
                 layout.sTop = top;
             });
-            
+
             if(redraw) {
                 thisB._clearLayout();
                 thisB.hideAll();

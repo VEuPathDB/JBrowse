@@ -22,7 +22,7 @@ function (
 ) {
     return declare(CanvasSubtracks, {
         constructor: function () {
-            console.log("Synteny Tracks");
+            this.inherited(arguments);
             this.showLabels = false;
         },
 
