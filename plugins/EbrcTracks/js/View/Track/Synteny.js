@@ -22,7 +22,7 @@ function (
 ) {
     return declare(CanvasSubtracks, {
         constructor: function () {
-            console.log("Synteny Tracks");
+            this.inherited(arguments);
             this.showLabels = false;
         },
 
@@ -40,10 +40,12 @@ function (
         },
 
 
-        renderSynteny: function() {
-
-
+        renderAcrossSubtracks: function() {
             var multiLayout = this.layout;
+
+            if(!multiLayout) {
+                return;
+            }
 
             var layoutCount = multiLayout.layouts.length;
 
@@ -126,93 +128,7 @@ function (
                 }
             }
 
-        },
-
-    showRange: function(first, last, startBase, bpPerBlock, scale,
-                        containerStart, containerEnd, finishCallback) {
-
-        var thisB = this;
-
-        if( this.fatalError ) {
-            this.showFatalError( this.fatalError );
-            return;
         }
-
-        if ( this.blocks === undefined || ! this.blocks.length )
-            return;
-
-        // this might make more sense in setViewInfo, but the label element
-        // isn't in the DOM tree yet at that point
-        if ((this.labelHeight == 0) && this.label)
-            this.labelHeight = this.label.offsetHeight;
-
-        this.inShowRange = true;
-        this.height = this.labelHeight;
-
-        var firstAttached = (null == this.firstAttached ? last + 1 : this.firstAttached);
-        var lastAttached =  (null == this.lastAttached ? first - 1 : this.lastAttached);
-
-        var i, leftBase;
-        var maxHeight = 0;
-        var blockShowingPromises = [];
-        //fill left, including existing blocks (to get their heights)
-        for (i = lastAttached; i >= first; i--) {
-            leftBase = startBase + (bpPerBlock * (i - first));
-            blockShowingPromises.push( new Promise((resolve,reject) => {
-                this._showBlock(i, leftBase, leftBase + bpPerBlock, scale,
-                    containerStart, containerEnd, resolve);
-            }))
-        }
-        //fill right
-        for (i = lastAttached + 1; i <= last; i++) {
-            leftBase = startBase + (bpPerBlock * (i - first));
-            blockShowingPromises.push( new Promise((resolve,reject) => {
-                this._showBlock(i, leftBase, leftBase + bpPerBlock, scale,
-                    containerStart, containerEnd, resolve);
-            }))
-        }
-        
-        // if we have a finishing callback, call it when we have finished all our _showBlock calls
-        if( finishCallback ) {
-            Promise.all(blockShowingPromises)
-                .then(finishCallback, finishCallback)
-        }
-
-        Promise.all(blockShowingPromises)
-                .then(function() {
-                    thisB.renderSynteny();
-                });
-
-
-
-        //detach left blocks
-        var destBlock = this.blocks[first];
-        for (i = firstAttached; i < first; i++) {
-            this.transfer(this.blocks[i], destBlock, scale,
-                          containerStart, containerEnd);
-            this.cleanupBlock(this.blocks[i]);
-            this._hideBlock(i);
-        }
-        //detach right blocks
-        destBlock = this.blocks[last];
-        for (i = lastAttached; i > last; i--) {
-            this.transfer(this.blocks[i], destBlock, scale,
-                          containerStart, containerEnd);
-            this.cleanupBlock(this.blocks[i]);
-            this._hideBlock(i);
-        }
-
-        this.firstAttached = first;
-        this.lastAttached = last;
-        this._adjustBlanks();
-        this.inShowRange = false;
-
-        this.heightUpdate(this.height);
-        this.updateStaticElements( this.genomeView.getPosition() );
-    },
-
-
-
 
     });
 });
