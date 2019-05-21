@@ -55,9 +55,11 @@ function (
             blockLoop:
             for (i = 0; i < this.blocks.length; i++) { 
                 var block = thisB.blocks[i];
-                if(!block || !block.featureCanvas) {
+                if(!block || block.renderedSynteny || !block.featureCanvas) {
                     continue blockLoop;
                 }
+
+                block.renderedSynteny = true;
 
                 var context = block.featureCanvas.getContext('2d');;
                 var j = 0;
