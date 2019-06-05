@@ -8,7 +8,9 @@ define([
     'JBrowse/View/Track/BlockBased',
     'JBrowse/Util',
     'dojo/Deferred',
-    'dijit/Tooltip'
+    'dijit/Tooltip',
+    'dojox/grid/EnhancedGrid',
+    'dojox/grid/enhanced/plugins/DnD'
 ],
 function (
     declare,
@@ -20,7 +22,8 @@ function (
     BlockBased,
     Util,
     Deferred,
-    Tooltip
+    Tooltip,
+    EnhancedGrid
 ) {
     return declare(CanvasFeatures, {
         constructor: function () {
@@ -48,6 +51,28 @@ function (
             });
             return ret;
         },
+
+
+
+    _trackMenuOptions: function() {
+        var opts = this.inherited(arguments);
+        var thisB = this;
+        opts.push({
+            label: 'Select and Order Subtracks',
+            title: 'Select and Order Subtracks',
+            iconClass: 'dijitIconConfigure',
+            action: 'contentDialog',
+            content: dojo.hitch(this,'_trackSubtracksConfigure')
+        });
+        return opts;
+    },
+
+        _trackSubtracksConfigure: function() {
+            console.log(this.getConf('subtracks'));
+            return "THIS IS A TEST";
+        },
+
+
 
         // override getLayout to access addRect method
         _getLayout: function (scale) {
@@ -150,6 +175,7 @@ function (
             }
         },
 
+    // override here to allow resizing if any subtrack height changes
     showRange: function(first, last, startBase, bpPerBlock, scale,
                         containerStart, containerEnd, finishCallback) {
 
