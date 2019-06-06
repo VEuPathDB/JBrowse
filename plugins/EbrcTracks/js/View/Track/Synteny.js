@@ -7,7 +7,7 @@ define([
     'dojo/on',
     'dojo/Deferred',
     'EbrcTracks/View/MultiRectLayoutSynteny',
-    'EbrcTracks/View/Track/CanvasSubtracks'
+    'EbrcTracks/View/Track/CanvasSubtracks',
 ],
 function (
     declare,
@@ -27,7 +27,6 @@ function (
         },
 
 
-
         // override getLayout to access addRect method
         _getLayout: function (scale) {
             var thisB = this;
@@ -40,6 +39,7 @@ function (
         },
 
 
+        // TODO:  because we only render the synteny shading once per block, new blocks brought in by scrolling can introduce shading which will appear incomplete
         renderAcrossSubtracks: function() {
             var multiLayout = this.layout;
 
@@ -94,6 +94,8 @@ function (
                                     var orthologRectangle = nextLayout.rectangles[orthologId];
                                     //                                    thisB.renderSynteny(rectangle, orthologRectangle);
 
+
+                                    // TODO:  feature.get methods don't work for features gotten by REST Store
                                     var fStartX = block.bpToX(rectangle.data.data.start);
 //                                    var fStartX = block.bpToX(rectangle.data.get("start"));
                                     var fEndX = block.bpToX(rectangle.data.data.end);
@@ -107,8 +109,8 @@ function (
 //                                    var oEndX = block.bpToX(orthologRectangle.data.get("end"));
                                     var oY = orthologRectangle.top * pitchY;
 
-                                    
-
+                                    context.strokeStyle = "grey";
+                                    context.lineWidth = 0.5;
                                     context.beginPath();
                                     context.moveTo(fStartX, fY);
                                     context.lineTo(fEndX, fY);
