@@ -51,15 +51,29 @@ function (
 
             var thisB = this;
 
+            var hasNewBlock = false;
+            var hasExistingBlock = false;
+
             var i = 0;
             blockLoop:
             for (i = 0; i < this.blocks.length; i++) { 
                 var block = thisB.blocks[i];
-                if(!block || block.renderedSynteny || !block.featureCanvas) {
+                if(!block) {
+                    continue blockLoop;
+                }
+
+                if(block.renderedSynteny) {
+                    hasExistingBlock = true;
+                    continue blockLoop;
+                }
+
+                if(!block.featureCanvas) {
                     continue blockLoop;
                 }
 
                 block.renderedSynteny = true;
+
+                hasNewBlock = true;
 
                 var context = block.featureCanvas.getContext('2d');;
                 var j = 0;
@@ -130,6 +144,14 @@ function (
                         }
                     }
                 }
+            }
+
+
+            // if we bring in a new block, we need to redraw
+            if(hasNewBlock && hasExistingBlock) {
+                thisB._clearLayout();
+                thisB.hideAll();
+                thisB.redraw();
             }
 
         }
