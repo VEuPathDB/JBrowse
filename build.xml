@@ -50,6 +50,15 @@
       <fileset dir="${projectsDir}/JBrowse/plugins/multibigwig-master"/>
     </move>
 
+    <!-- trackscore plugin -->
+    <unzip src="${projectsDir}/JBrowse/plugins/jbplugin-trackscores.zip" 
+           dest="${projectsDir}/JBrowse/plugins/"/>
+    <move todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/TrackScorePlugin">
+      <fileset dir="${projectsDir}/JBrowse/plugins/jbplugin-trackscores-master"/>
+    </move>
+
+
+
     <!-- smallrna plugin -->
     <unzip src="${projectsDir}/JBrowse/plugins/smallrna.zip" 
            dest="${projectsDir}/JBrowse/plugins/"/>

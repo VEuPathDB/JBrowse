@@ -1,9 +1,17 @@
+#navbox {
+  background: whitesmoke;
+}
+
+.jbrowse#faceted_tracksel #faceted_tracksel_top {
+  background-image: url(/a/images/-PROJECT-/background_s.jpg);
+}
+
 .jbrowse#faceted_tracksel .faceted_tracksel_on_off.tab {
   top: 10em
 }
 .jbrowse div.menuBar {
     background:none;
-    background-image: url(/a/images/EuPathDB/backgroundtop_s.jpg);
+    background-image: url(/a/images/-PROJECT-/backgroundtop_s.jpg);
     height:104px;
     background-repeat: no-repeat;
     min-width:1070px;
@@ -19,7 +27,7 @@
 
 
 #dijit_layout_ContentPane_0 {
-  background-image: url(/a/images/EuPathDB/background_s.jpg);
+  background-image: url(/a/images/-PROJECT-/background_s.jpg);
 }
 
 .eupathlogoimage {
