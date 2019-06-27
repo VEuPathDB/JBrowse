@@ -50,8 +50,10 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
                // default facet filtering function
                || function( facetName, store ){
                    return (
-                       // JB: exclude type
+                       // JB: exclude type and default checked
                        facetName != 'track type'
+                    &&
+                       facetName != 'defaultchecked'
                     &&
                        // has an avg bucket size > 1
                        store.getFacetStats( facetName ).avgBucketSize > 1
@@ -95,21 +97,23 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
            // deselected (with the checkbox), publish a message
            // indicating that the user wants that track turned on or
            // off
-           // dojo.connect( this.dataGrid.selection, 'onSelected', this, function(index) {
-           //               this._ifNotSuppressed( 'selectionEvents', function() {
-           //                   this._suppress( 'gridUpdate', function() {
-           //                       this.browser.publish( '/jbrowse/v1/v/tracks/show', [this.dataGrid.getItem( index ).conf] );
-           //                   });
-           //               });
+            dojo.connect( this.dataGrid.selection, 'onSelected', this, function(index) {
+                          this._ifNotSuppressed( 'selectionEvents', function() {
+                              this._suppress( 'gridUpdate', function() {
+                                  this.setTracksActive();
+//                                  this.browser.publish( '/jbrowse/v1/v/tracks/show', [this.dataGrid.getItem( index ).conf] );
+                              });
+                          });
 
-           // });
-           // dojo.connect( this.dataGrid.selection, 'onDeselected', this, function(index) {
-           //               this._ifNotSuppressed( 'selectionEvents', function() {
-           //                   this._suppress( 'gridUpdate', function() {
-           //                       this.browser.publish( '/jbrowse/v1/v/tracks/hide', [this.dataGrid.getItem( index ).conf] );
-           //                   });
-           //               });
-           // });
+            });
+             dojo.connect( this.dataGrid.selection, 'onDeselected', this, function(index) {
+                           this._ifNotSuppressed( 'selectionEvents', function() {
+                               this._suppress( 'gridUpdate', function() {
+                                  this.setTracksInactive(this.dataGrid.getItem(index));
+ //                                  this.browser.publish( '/jbrowse/v1/v/tracks/hide', [this.dataGrid.getItem( index ).conf] );
+                               });
+                           });
+             });
 
 
            this._updateFacetCounts()
@@ -370,6 +374,8 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
 
     renderGrid: function() {
         // JB Edit
+
+        var thisB = this;
         var displayColumns = this.displayColumns
             || dojo.filter(
                 this.trackDataStore.getFacetNames(),
@@ -385,7 +391,7 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
                escapeHTMLInData: ('escapeHTMLInData' in this.config) ? this.config.escapeHTMLInData : false,
                noDataMessage: "No tracks match the filtering criteria.",
                rowsPerPage: 50,
-               rowSelector: '20px',
+//               rowSelector: '20px',
                structure: [
                    dojo.map(
                        displayColumns,
@@ -401,13 +407,13 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
                    indirectSelection: {
                        headerSelector: true
                    },
-                    dnd: {
-                        dndConfig: {
-                            within: {row: true, col: true, cell:false },
-                            out: {row: false, col: false, cell:false },
-                                in: {row: false, col: false, cell:false },
-                        }
-                    },
+                    // dnd: {
+                    //     dndConfig: {
+                    //         within: {row: true, col: true, cell:false },
+                    //         out: {row: false, col: false, cell:false },
+                    //             in: {row: false, col: false, cell:false },
+                    //     }
+                    // },
                }
            }
         );
@@ -420,6 +426,12 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
 
         // monkey-patch the grid to customize some of its behaviors
         this._monkeyPatchGrid( grid );
+
+        dojo.forEach(grid.store.facetIndexes.byName.defaultchecked.byValue.true.items, function(item, i) {
+            thisB.tracksActive[item.label] = true;
+            thisB._updateGridSelections();
+        });
+
 
         return grid;
     },
@@ -456,18 +468,19 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
         // anything.  without this, clicking on a row selects it, and
         // deselects everything else, which is quite undesirable.
         grid.onRowClick = function() {};
+        grid.onRowSelected = function() {};
 
         // 2. monkey-patch the grid's range-selector to refuse to select
         // if the selection is too big
-        var origSelectRange = grid.selection.selectRange;
-        grid.selection.selectRange = function( inFrom, inTo ) {
-            var selectionLimit = 30;
-            if( inTo - inFrom > selectionLimit ) {
-                alert( "Too many tracks selected, please select fewer than "+selectionLimit+" tracks. Note: you can use shift+click to select a range of tracks" );
-                return undefined;
-            }
-            return origSelectRange.apply( this, arguments );
-        };
+        // var origSelectRange = grid.selection.selectRange;
+        // grid.selection.selectRange = function( inFrom, inTo ) {
+        //     var selectionLimit = 30;
+        //     if( inTo - inFrom > selectionLimit ) {
+        //         alert( "Too many tracks selected, please select fewer than "+selectionLimit+" tracks. Note: you can use shift+click to select a range of tracks" );
+        //         return undefined;
+        //     }
+        //     return origSelectRange.apply( this, arguments );
+        // };
     },
 
     renderTextFilter: function( parent ) {
@@ -768,9 +781,14 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
              // currently selected tracks to the query
              if( is_selected( byname['Currently Selected'] ) ) {
 //             if( is_selected( byname['Currently Active'] ) ) {
-                 var activeTrackLabels = dojof.keys(this.tracksActive || {});
+
+                 var activeTrackLabels = dojo.map(this.dataGrid.selection.getSelected(), function(s) {
+                     return s.label;
+                 });
+
+//                 var activeTrackLabels = dojof.keys(this.tracksActive || {});
                  newQuery.label = Util.uniq(
-                     (newQuery.label ||[])
+                     (newQuery.label || [])
                      .concat( activeTrackLabels )
                  );
              }
@@ -820,6 +838,7 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
                 newQuery[facetName] = selectedFacets;
         },this);
 
+
         this.query = newQuery;
         this.dataGrid.setQuery( this.query );
         this._updateMatchCount();
@@ -852,21 +871,32 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
         this.ready.then(() => {
             // keep selection events from firing while we mess with the
             // grid
+
+            var thisB = this;
+
             this._ifNotSuppressed(['gridUpdate','selectionEvents'], function(){
                 this._suppress('selectionEvents', function() {
-                    this.dataGrid.selection.deselectAll();
+
+
+                    thisB.dataGrid.selection.deselectAll();
+
+//                    array.forEach(selected, function(s, i) {
+//                        var index = thisB.dataGrid.getItemIndex(s);
+//                        thisB.dataGrid.rowSelectCell.toggleRow( index, true );
+//                    });
 
                     // check the boxes that should be checked, based on our
                     // internal memory of what tracks should be on.
-//                    for( var i= 0; i < Math.min( this.dataGrid.get('rowCount'), this.dataGrid.get('rowsPerPage') ); i++ ) {
-                    for( var i= 0; i < this.dataGrid.get('rowCount'); i++ ) {
-                        var item = this.dataGrid.getItem( i );
-                        if( item ) {
-                            var label = this.dataGrid.store.getIdentity( item );
-                            if( this.tracksActive[label] )
-                                this.dataGrid.rowSelectCell.toggleRow( i, true );
-                        }
-                    }
+//                     for( var i= 0; i < Math.min( this.dataGrid.get('rowCount'), this.dataGrid.get('rowsPerPage') ); i++ ) {
+                     for( var i= 0; i < this.dataGrid.get('rowCount'); i++ ) {
+                         var item = this.dataGrid.getItem( i );
+                         if( item ) {
+//                            var label = this.dataGrid.store.getIdentity( item );
+                             var label = item.label;
+                             if(this.tracksActive[label])
+                                 this.dataGrid.rowSelectCell.toggleRow( i, true );
+                         }
+                     }
 
                 });
             });
@@ -877,9 +907,11 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
      * Given an array of track configs, update the track list to show
      * that they are turned on.
      */
-    setTracksActive: function( /**Array[Object]*/ trackConfigs ) {
-        dojo.forEach( trackConfigs, function(conf) {
-            this.tracksActive[conf.label] = true;
+    setTracksActive: function() {
+        var thisB = this;
+
+        dojo.forEach( thisB.dataGrid.selection.getSelected(), function(s) {
+            thisB.tracksActive[s.label] = true;
         },this);
         this._updateGridSelections();
     },
@@ -888,10 +920,8 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
      * Given an array of track configs, update the track list to show
      * that they are turned off.
      */
-    setTracksInactive: function( /**Array[Object]*/ trackConfigs ) {
-        dojo.forEach( trackConfigs, function(conf) {
-            delete this.tracksActive[conf.label];
-        },this);
+    setTracksInactive: function(item ) {
+        delete this.tracksActive[item.label];
         this._updateGridSelections();
     },
 
