@@ -81,8 +81,8 @@ function (
         var opts = this.inherited(arguments);
         var thisB = this;
         opts.push({
-            label: 'Select and Order Subtracks',
-            title: 'Select and Order Subtracks',
+            label: 'Select Subtracks',
+            title: 'Select Subtracks',
             iconClass: 'dijitIconConfigure',
             action: 'bareDialog',
             content: this._trackSubtracksConfigure,
@@ -94,6 +94,14 @@ function (
         _trackSubtracksConfigure: function() {
             var track = this.track;
             var subtrackList = track.getConf('subtracks');
+            
+            
+            var activeSubtrackLabels = {};
+
+            array.forEach(track.subtracks, function(s) {
+                activeSubtrackLabels[s.label] = 1;
+            });;
+            
 
             var data = [];
 
@@ -106,6 +114,8 @@ function (
 
                 var label = subtrackList[i].label;
                 
+                var defaultChecked = activeSubtrackLabels[label] ? true : false;
+                
                 Object.keys(metadata).forEach(function(v){
                     colNames[v] = 1;
                 });
@@ -113,7 +123,7 @@ function (
                     colNames[v] = 1;
                 });
 
-                var allmetadata = dojo.mixin({ id: i+1 }, featureFilters, metadata)
+                var allmetadata = dojo.mixin({ id: i+1 }, featureFilters, metadata, {defaultChecked: defaultChecked});
 
                 data.push({key: i+1, label: label, metadata: allmetadata});
             }
@@ -141,6 +151,7 @@ function (
                  renameFacets: renameFacets,
                  displayColumns: displayColumns
                 });
+
 
 
         var actionBar = dojo.create( 'div', {
