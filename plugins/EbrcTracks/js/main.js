@@ -2,6 +2,7 @@ define([
        'dojo/_base/declare',
        'dojo/_base/array',
        'dijit/MenuItem',
+       'dijit/registry',
        'EbrcTracks/View/Dialog/SetTrackYMax',
        'EbrcTracks/View/Dialog/SetTrackLogScale',
        'JBrowse/Plugin'
@@ -10,6 +11,7 @@ define([
            declare,
            array,
            dijitMenuItem,
+           dijitRegistry,
            SetTrackYMaxDialog,
            SetTrackLogScaleDialog,
            JBrowsePlugin
@@ -22,6 +24,12 @@ return declare( JBrowsePlugin,
         // do anything you need to initialize your plugin here
         console.log( "EbrcTracks plugin starting" );
 
+        // hide smrna filter btn
+        browser.afterMilestone('completely initialized', function () {
+            var smrnabutton = dijitRegistry.byId('smrna-filter-btn');
+            var smrnabuttonNode = smrnabutton.domNode;
+            smrnabuttonNode.parentNode.removeChild(smrnabuttonNode);
+          });
 
         browser.afterMilestone('initView', function() {
             // add a global menu item for resizing all visible quantitative tracks
