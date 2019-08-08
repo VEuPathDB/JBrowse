@@ -16,7 +16,7 @@ define([
     'EbrcTracks/View/TrackList/FacetedSubtracks',
     'dijit/form/Button',
     'dojox/grid/EnhancedGrid',
-    'dojox/grid/enhanced/plugins/DnD',
+//    'dojox/grid/enhanced/plugins/DnD',
     'dojox/grid/enhanced/plugins/IndirectSelection'
 ],
 function (
@@ -172,9 +172,24 @@ function (
 
         new dijitButton({ iconClass: 'dijitIconSave', 
                           onClick: dojo.hitch( track, function() {
-                              var sortedSelectedSubtracks = facetedSubtracks.dataGrid.selection.getSelected().sort(function(a,b) {
+
+                              var selected = [];
+
+                              array.forEach(Object.keys(facetedSubtracks.tracksActive), function(active){
+                                  selected.push(facetedSubtracks.dataGrid.store.getItem(active));
+                              });
+                              
+
+                              if(selected.length < 1) {
+                                  alert("Nothing was selected");
+                                  selected = facetedSubtracks.dataGrid.store.facetIndexes.byName.defaultchecked.byValue.true.items;
+                              }
+
+
+                              var sortedSelectedSubtracks = selected.sort(function(a,b) {
                                   facetedSubtracks.dataGrid.getItemIndex(a) - facetedSubtracks.dataGrid.getItemIndex(b);
                               });
+
 
                               track.subtracks = [];
 
