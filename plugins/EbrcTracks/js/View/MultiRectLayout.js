@@ -78,7 +78,7 @@ function (
         var lastIndex = this.layouts.length - 1;
 
         var heights = this.layouts.map(function(layout) {
-            return layout.getTotalHeight();
+            return layout.getTotalHeight() == 0 ? layout.sTop * layout.pitchY : layout.getTotalHeight();
         });
 
         return Math.max(...heights);
