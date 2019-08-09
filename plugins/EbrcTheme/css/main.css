@@ -17,8 +17,9 @@
     min-width:1070px;
 }
 
+
 .jbrowse .menuBar > .menu.dijitDropDownButton * {
-  line-height: 175px
+  line-height: 120px
 }
 
 .jbrowse .menuBar .dijitButtonNode * {
@@ -40,3 +41,50 @@
   top:1%;
 }
 
+.eupathdb-SmallMenu {
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 1.5em;
+}
+
+.eupathdb-SmallMenu > .eupathdb-SmallMenuItem {
+  float:right;
+  vertical-align:bottom;
+  display: inline-block;
+  padding: 0 5px;
+  border-left: 1px solid #716e61;
+  cursor: default; }
+
+.eupathdb-SmallMenu > .eupathdb-SmallMenuItem > .eupathdb-SmallMenu {
+  visibility: hidden;
+  position: absolute;
+  z-index: 2;
+  text-align: left;
+  border: 1px solid;
+  padding: 6px 6px 6px 18px;
+  margin: 0;
+  width: 13em;
+  list-style: disc;
+  background: white;
+  transition: visibility 250ms linear 250ms; }
+
+.eupathdb-SmallMenu > .eupathdb-SmallMenuItem:active > .eupathdb-SmallMenu,
+.eupathdb-SmallMenu > .eupathdb-SmallMenuItem:hover > .eupathdb-SmallMenu {
+  visibility: visible; }
+
+.eupathdb-SmallMenu .eupathdb-SmallMenuItem .eupathdb-SmallMenuItem {
+  padding: 2px 0;
+  display: list-item; }
+
+.eupathdb-SmallMenuDivider {
+  color: gray;
+  font-style: italic;
+  font-size: 90%;
+  list-style: none; }
+
+.eupathdb-SmallMenuItem.eupathdb-SmallMenuSocialMediaContainer {
+  padding: 0; }
+
+.eupathdb-SmallMenuItem.eupathdb-SmallMenuSocialMediaContainer,
+.eupathdb-SmallMenuItem .eupathdb-SmallMenuItem,
