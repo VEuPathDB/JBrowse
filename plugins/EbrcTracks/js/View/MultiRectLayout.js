@@ -77,8 +77,10 @@ function (
     getTotalHeight() {
         var lastIndex = this.layouts.length - 1;
 
+        var buffer = 8;
+
         var heights = this.layouts.map(function(layout) {
-            return layout.getTotalHeight();
+            return layout.getTotalHeight() == 0 ? layout.sTop * layout.pitchY + buffer : layout.getTotalHeight();
         });
 
         return Math.max(...heights);
