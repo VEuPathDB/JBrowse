@@ -21,7 +21,7 @@ function(
                 onClick: function() {
                     if(this.checked) {
                         thisB.addFeatureFilter(function(feat) {
-                            return feat.data['edName'] != 'edisSAW760_genomeFeature_repeatElements_GFF3_RSRC'; 
+                            return feat.get('edname') != 'edisSAW760_genomeFeature_repeatElements_GFF3_RSRC'; 
                         }, 'edisFilter');
                     }
                     else {
@@ -39,7 +39,7 @@ function(
                 onClick: function() {
                     if(this.checked) {
                         thisB.addFeatureFilter(function(feat) {
-                            return feat.data['edName'] != 'ehisHM1IMSS_genomeFeature_repeatElements_GFF3_RSRC';
+                            return feat.get('edname') != 'ehisHM1IMSS_genomeFeature_repeatElements_GFF3_RSRC';
                         }, 'ehisFilter');
                     }
                     else {
@@ -57,7 +57,7 @@ function(
                 onClick: function() {
                     if(this.checked) {
                         thisB.addFeatureFilter(function(feat) {
-                            return feat.data['edName'] != 'einvIP1_genomeFeature_repeatElements_GFF3_RSRC'; 
+                            return feat.get('edname') != 'einvIP1_genomeFeature_repeatElements_GFF3_RSRC'; 
                         }, 'einvFilter');
                     }
                     else {

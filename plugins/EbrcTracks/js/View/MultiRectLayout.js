@@ -47,7 +47,7 @@ function (
             var countMatched = 0;
             Object.keys(layout.featureFilters).forEach(function(featureFiltersKey) {
 
-                if(feature.data[featureFiltersKey] === layout.featureFilters[featureFiltersKey]) {
+                if(feature.get(featureFiltersKey) === layout.featureFilters[featureFiltersKey]) {
                     
 //                if(feature.get(featureFiltersKey) != layout.featureFilters[featureFiltersKey]) {
                     countMatched = countMatched + 1;
