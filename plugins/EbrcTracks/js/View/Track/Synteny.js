@@ -108,19 +108,18 @@ function (
                                     var orthologRectangle = nextLayout.rectangles[orthologId];
                                     //                                    thisB.renderSynteny(rectangle, orthologRectangle);
 
-
                                     // TODO:  feature.get methods don't work for features gotten by REST Store
-                                    var fStartX = block.bpToX(rectangle.data.data.start);
-//                                    var fStartX = block.bpToX(rectangle.data.get("start"));
-                                    var fEndX = block.bpToX(rectangle.data.data.end);
-//                                    var fEndX = block.bpToX(rectangle.data.get("end"));
+//                                    var fStartX = block.bpToX(rectangle.data.data.start);
+                                    var fStartX = block.bpToX(rectangle.data.get("start"));
+//                                    var fEndX = block.bpToX(rectangle.data.data.end);
+                                    var fEndX = block.bpToX(rectangle.data.get("end"));
                                     var fY = (rectangle.top * pitchY) + (rectangle.h * pitchY);
 
 
-                                    var oStartX = block.bpToX(orthologRectangle.data.data.start);
-//                                    var oStartX = block.bpToX(orthologRectangle.data.get("start"));
-                                    var oEndX = block.bpToX(orthologRectangle.data.data.end);
-//                                    var oEndX = block.bpToX(orthologRectangle.data.get("end"));
+//                                    var oStartX = block.bpToX(orthologRectangle.data.data.start);
+                                    var oStartX = block.bpToX(orthologRectangle.data.get("start"));
+//                                    var oEndX = block.bpToX(orthologRectangle.data.data.end);
+                                    var oEndX = block.bpToX(orthologRectangle.data.get("end"));
                                     var oY = orthologRectangle.top * pitchY;
 
                                     context.strokeStyle = "grey";

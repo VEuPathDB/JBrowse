@@ -22,7 +22,7 @@ function(
                 onClick: function() {
                     if(this.checked) {
                         thisB.addFeatureFilter(function(feat) {
-                            return feat.data['AnnotatedIntron'] == 'Yes'; 
+                            return feat.get('annotatedintron') == 'Yes'; 
                         }, 'annotatedFilter');
                     }
                     else {
@@ -40,7 +40,7 @@ function(
                 onClick: function() {
                     if(this.checked) {
                         thisB.addFeatureFilter(function(feat) {
-                            return feat.data['AnnotatedIntron'] == 'No'; 
+                            return feat.get('annotatedintron') == 'No'; 
                         }, 'novelFilter');
                     }
                     else {
