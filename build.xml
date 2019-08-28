@@ -86,6 +86,10 @@
       <fileset dir="${projectsDir}/JBrowse/plugins/EbrcTheme"/>
     </copy>  
 
+
+    <!-- PATCHES -->
+    <copy file="${projectsDir}/JBrowse/patches/JBrowse/View/Export/GFF3.js" tofile="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/src/JBrowse/View/Export/GFF3.js" />
+
     <exec executable="rm"
 	  dir="${webappTargetDir}"
 	  failonerror="false"
