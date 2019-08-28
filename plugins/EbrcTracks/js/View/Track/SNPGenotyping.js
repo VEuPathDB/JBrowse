@@ -21,7 +21,7 @@ function(
                 onClick: function() {
                     if(this.checked) {
                         thisB.addFeatureFilter(function(feat) {
-                            return feat.data['SNPChipType'] != 'Broad75KGenotyping'; 
+                            return feat.get('snpchiptype') != 'Broad75KGenotyping'; 
                         }, 'broad75Filter');
                     }
                     else {
@@ -39,7 +39,7 @@ function(
                 onClick: function() {
                     if(this.checked) {
                         thisB.addFeatureFilter(function(feat) {
-                            return feat.data['SNPChipType'] != 'Broad3KGenotyping';
+                            return feat.get('snpchiptype') != 'Broad3KGenotyping';
                         }, 'broad3Filter');
                     }
                     else {
@@ -57,7 +57,7 @@ function(
                 onClick: function() {
                     if(this.checked) {
                         thisB.addFeatureFilter(function(feat) {
-                            return feat.data['SNPChipType'] != 'BroadIsolateBarcode'; 
+                            return feat.get('snpchiptype') != 'BroadIsolateBarcode'; 
                         }, 'broadIsolateFilter');
                     }
                     else {
@@ -75,7 +75,7 @@ function(
                 onClick: function() {
                     if(this.checked) {
                         thisB.addFeatureFilter(function(feat) {
-                            return feat.data['SNPChipType'] != 'SNP_Chip_Artesunate_Resistance'; 
+                            return feat.get('snpchiptype') != 'SNP_Chip_Artesunate_Resistance'; 
                         }, 'nihFilter');
                     }
                     else {

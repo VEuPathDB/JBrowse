@@ -3,40 +3,10 @@
 }
 
 .jbrowse#faceted_tracksel #faceted_tracksel_top {
-  background-image: url(/a/images/-PROJECT-/background_s.jpg);
+  background-color:black;
 }
 
-.jbrowse#faceted_tracksel .faceted_tracksel_on_off.tab {
-  top: 10em
-}
 .jbrowse div.menuBar {
-    background:none;
-    background-image: url(/a/images/-PROJECT-/backgroundtop_s.jpg);
-    height:104px;
-    background-repeat: no-repeat;
-    min-width:1070px;
-}
-
-.jbrowse .menuBar > .menu.dijitDropDownButton * {
-  line-height: 175px
-}
-
-.jbrowse .menuBar .dijitButtonNode * {
-  text-align: right;
-}
-
-
-#dijit_layout_ContentPane_0 {
-  background-image: url(/a/images/-PROJECT-/background_s.jpg);
-}
-
-.eupathlogoimage {
-  float:left;
-}
-
-.eupathlogo {
-  position:absolute;
-  left:1%;
-  top:1%;
+  background-color:black;
 }
 

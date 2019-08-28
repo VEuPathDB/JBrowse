@@ -14,10 +14,6 @@ return declare( JBrowsePlugin,
         // do anything you need to initialize your plugin here
         console.log( "EbrcTheme plugin starting" );
 
-        browser.afterMilestone('initView', function() {
-            dojo.create("div", { className: "eupathlogo", innerHTML: "<a href='/'><img class='eupathlogoimage' src='/a/images/-PROJECT-/title_s.png'></a>" }, browser.menuBar);
-
-        });
 }});
 
 });
