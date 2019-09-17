@@ -34,3 +34,6 @@ node_modules/
 # file backups
 *~
 \#*
+
+# JBrowse
+/plugins/jbplugin-trackscores-master/
