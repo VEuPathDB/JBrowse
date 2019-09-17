@@ -30,3 +30,5 @@ node_modules/
 
 # Other version control
 .svn/
+
+/plugins/jbplugin-trackscores-master/
