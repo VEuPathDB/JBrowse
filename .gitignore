@@ -31,5 +31,9 @@ node_modules/
 # Other version control
 .svn/
 
-/plugins/jbplugin-trackscores-master/
+# file backups
 *~
+\#*
+
+# JBrowse
+/plugins/jbplugin-trackscores-master/
