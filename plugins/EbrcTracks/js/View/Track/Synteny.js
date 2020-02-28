@@ -39,6 +39,18 @@ function (
         },
 
 
+
+    _attachMouseOverEvents: function( ) {
+        var gv = this.browser.view;
+        var thisB = this;
+
+        if( this._mouseoutEvent ) {
+            this._mouseoutEvent.remove();
+            delete this._mouseoutEvent;
+        }
+    },
+
+
         // TODO:  because we only render the synteny shading once per block, new blocks brought in by scrolling can introduce shading which will appear incomplete
         renderAcrossSubtracks: function() {
             var multiLayout = this.layout;
@@ -113,22 +125,26 @@ function (
                                     var fStartX = block.bpToX(rectangle.data.get("start"));
 //                                    var fEndX = block.bpToX(rectangle.data.data.end);
                                     var fEndX = block.bpToX(rectangle.data.get("end"));
-                                    var fY = (rectangle.top * pitchY) + (rectangle.h * pitchY);
+                                    var fYbottom = (rectangle.top * pitchY) + (rectangle.h * pitchY);
 
 
 //                                    var oStartX = block.bpToX(orthologRectangle.data.data.start);
                                     var oStartX = block.bpToX(orthologRectangle.data.get("start"));
 //                                    var oEndX = block.bpToX(orthologRectangle.data.data.end);
                                     var oEndX = block.bpToX(orthologRectangle.data.get("end"));
-                                    var oY = orthologRectangle.top * pitchY;
+                                    var oYtop = orthologRectangle.top * pitchY;
+                                    var oYbottom = (orthologRectangle.top * pitchY) + (orthologRectangle.h * pitchY);
 
                                     context.strokeStyle = "grey";
                                     context.lineWidth = 0.5;
                                     context.beginPath();
-                                    context.moveTo(fStartX, fY);
-                                    context.lineTo(fEndX, fY);
-                                    context.lineTo(oEndX, oY);
-                                    context.lineTo(oStartX, oY);
+                                    context.moveTo(fStartX, fYbottom);
+                                    context.lineTo(fEndX, fYbottom);
+
+                                    context.lineTo(oEndX, oYtop);
+                                    context.lineTo(oEndX, oYbottom);
+                                    context.lineTo(oStartX, oYbottom);
+                                    context.lineTo(oStartX, oYtop);
                                     context.closePath();
                                     context.stroke();
                                     context.fillStyle = "grey";
