@@ -120,17 +120,13 @@ function (
                                     var orthologRectangle = nextLayout.rectangles[orthologId];
                                     //                                    thisB.renderSynteny(rectangle, orthologRectangle);
 
-                                    // TODO:  feature.get methods don't work for features gotten by REST Store
-//                                    var fStartX = block.bpToX(rectangle.data.data.start);
                                     var fStartX = block.bpToX(rectangle.data.get("start"));
-//                                    var fEndX = block.bpToX(rectangle.data.data.end);
                                     var fEndX = block.bpToX(rectangle.data.get("end"));
+                                    var fYtop = rectangle.top * pitchY;
                                     var fYbottom = (rectangle.top * pitchY) + (rectangle.h * pitchY);
 
 
-//                                    var oStartX = block.bpToX(orthologRectangle.data.data.start);
                                     var oStartX = block.bpToX(orthologRectangle.data.get("start"));
-//                                    var oEndX = block.bpToX(orthologRectangle.data.data.end);
                                     var oEndX = block.bpToX(orthologRectangle.data.get("end"));
                                     var oYtop = orthologRectangle.top * pitchY;
                                     var oYbottom = (orthologRectangle.top * pitchY) + (orthologRectangle.h * pitchY);
@@ -138,9 +134,13 @@ function (
                                     context.strokeStyle = "grey";
                                     context.lineWidth = 0.5;
                                     context.beginPath();
-                                    context.moveTo(fStartX, fYbottom);
-                                    context.lineTo(fEndX, fYbottom);
 
+                                    context.moveTo(fStartX, fYbottom);
+                                    if(j === 0) {
+                                        context.lineTo(fStartX, fYtop);
+                                        context.lineTo(fEndX, fYtop);
+                                    }
+                                    context.lineTo(fEndX, fYbottom);
                                     context.lineTo(oEndX, oYtop);
                                     context.lineTo(oEndX, oYbottom);
                                     context.lineTo(oStartX, oYbottom);
