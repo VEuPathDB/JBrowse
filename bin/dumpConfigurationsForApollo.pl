@@ -37,11 +37,28 @@ foreach my $site (@sites) {
 
 #    next unless $organismAbbrev eq 'agamPEST';
 
-    my $mainUrl = "$site/a/service/jbrowse/tracks/pfal3D7/trackList.json";
+    my $mainUrl = "$site/a/service/jbrowse/tracks/${organismAbbrev}/trackList.json";
     my $main = &getData($mainUrl);
 
+    # include the functions.conf
+    push @{$main->{include}}, "/a/jbrowse/functions.conf";
+
+    # todo: only include this for annotated genomes
+    push @{$main->{include}}, "/a/jbrowse/apollo_gene_tracks.conf";
+
     my $organismDir = "$directory/$organismAbbrev";
+    my $seqDir = "$directory/$organismAbbrev/seq";
+
     mkdir $organismDir;
+    mkdir $seqDir;
+
+    my $refSeqsUrl = &redirect($site, $main->{refSeqs}, $organismAbbrev);
+    my $refSeqsJson = get($refSeqsUrl);
+    my $refSeqsFile = "$seqDir/refSeqs.json";
+
+    open(REFSEQ, ">$refSeqsFile") or die "Cannot open file $refSeqsFile for writing: $!";
+    print REFSEQ $refSeqsJson . "\n";
+    close REFSEQ;
 
     my $fastaFile = "$workflowDir/data/$organismAbbrev/makeAndMaskTopLevelGenome/topLevelGenomicSeqs.fasta";
     unless(-e $fastaFile) {
@@ -50,22 +67,25 @@ foreach my $site (@sites) {
 
     my $fa = "$organismAbbrev.fa";
     my $fai = "$organismAbbrev.fa.fai";
-    my $refSeqFasta = "$organismDir/$fa";
+    my $refSeqFasta = "$organismDir/seq/$fa";
 
     cp($fastaFile, $refSeqFasta);
 
     system("samtools faidx $refSeqFasta") == 0
         or die "samtools command failed: $?";
 
-    $main->{refSeqs} = $fai;
+    $main->{refSeqs} = "seq/$fai";
 
     $main->{tracks} = [
-      {"label" => "refseqs",
+      {"category" => "Reference sequence",  
+       "faiUrlTemplate" => "seq/$fai",
        "key" => "Reference sequence",
+       "label" => "DNA",
+       "seqType" => "dna",
        "storeClass" => "JBrowse/Store/SeqFeature/IndexedFasta",
-       "urlTemplate" => $fa,
-       "useAsRefSeqStore" => JSON::true,
-       "type" => "Sequence"
+       "type" => "SequenceTrack",
+       "urlTemplate" => "seq/$fa",
+       "useAsRefSeqStore" => 1
       }
         ];
 
@@ -79,22 +99,35 @@ foreach my $site (@sites) {
 
       $includeUrl = &redirect($site, $includeUrl, $organismAbbrev);
 
+      if($includeUrl =~ /rnaseqJunctions/) {
+        $includeUrl = $includeUrl .  "?isApollo=1";
+      }
+
       my $tracksJson = get($includeUrl);
       die "Couldn't get $includeUrl" unless defined $tracksJson;
       $tracksJson =~ s/\/a\//$site\/a\//g;
 
-      my ($fileName) = $includeUrl =~ /jbrowse\/(.+)\/$organismAbbrev$/; 
+      my ($fileName) = $includeUrl =~ /jbrowse\/(.+)\/$organismAbbrev/; 
       $fileName = "$fileName.json";
       if($includeUrl =~ /tracks.conf/) {
 
         # this bit removes the dataset_id
-        $tracksJson =~ s/\[general\]\s*dataset_id=$organismAbbrev//i;
+        #$tracksJson =~ s/\[general\]\s*dataset_id=$organismAbbrev//i;
 
         # This bit removes the refseq track;  I'm making the assumption that there is no # char in the refseq track
         $tracksJson =~ s/\[tracks.refseq\][^#\[]*//;
 
         $fileName = "tracks.conf";
       }
+
+      if($includeUrl =~ /functions.conf/) {
+        $fileName = "functions.conf";
+      }
+
+      if($includeUrl =~ /apollo_gene_tracks.conf/) {
+        $fileName = "apollo_gene_tracks.conf";
+      }
+
       
       $main->{include}->[$i] = $fileName;
       open(I, ">$organismDir/$fileName") or die "Cannot open file $organismDir/$fileName for writing: $!";
@@ -105,7 +138,6 @@ foreach my $site (@sites) {
 
     open(M, ">$organismDir/trackList.json") or die "Cannot open file $organismDir/trackList.json for writing: $!";
     print M encode_json $main;
-    exit;
   }
 }
 
@@ -114,11 +146,12 @@ foreach my $site (@sites) {
 sub redirect {
   my ($site, $url, $organismAbbrev) = @_;
   $url =~ s/^\/a/$site\/a/;
-  $url =~ s/\/\/tracks.conf$/\/$organismAbbrev\/tracks.conf/;
 
-  unless($url =~ /\/tracks.conf$/ || $url =~ /\/$organismAbbrev$/) {
-    $url = $url . $organismAbbrev;
-  }
+  # $url =~ s/\/\/tracks.conf$/\/$organismAbbrev\/tracks.conf/;
+
+  # unless($url =~ /\/tracks.conf$/ || $url =~ /\/$organismAbbrev$/) {
+  #   $url = $url . $organismAbbrev;
+  # }
 
   return $url;
 }
