@@ -32,6 +32,12 @@ foreach my $site (@sites) {
 
   my $organisms = &getData($orgUrl);
 
+  my $organismsFile = "$directory/organismList.json";
+
+  open(ORGS, ">$organismsFile") or die "Cannot open file $organismsFile for writing: $!";
+  print ORGS encode_json $organisms;
+  close ORGS;
+
   foreach my $organism (@{$organisms->{organisms}}) {
     my $organismAbbrev = $organism->{ORGANISM_ABBREV};
 
