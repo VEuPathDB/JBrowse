@@ -36,7 +36,7 @@ foreach my $site (@sites) {
     my $organismAbbrev = $organism->{ORGANISM_ABBREV};
 
 #    next unless $organismAbbrev eq 'agamPEST';
-
+    print STDERR "Preparing Configuration for Organism $organismAbbrev\n";
     my $mainUrl = "$site/a/service/jbrowse/tracks/${organismAbbrev}/trackList.json";
     my $main = &getData($mainUrl);
 
@@ -77,7 +77,7 @@ foreach my $site (@sites) {
     $main->{refSeqs} = "seq/$fai";
 
     $main->{tracks} = [
-      {"category" => "Reference sequence",  
+      {"category" => "Sequence Analysis",  
        "faiUrlTemplate" => "seq/$fai",
        "key" => "Reference sequence",
        "label" => "DNA",
@@ -85,7 +85,7 @@ foreach my $site (@sites) {
        "storeClass" => "JBrowse/Store/SeqFeature/IndexedFasta",
        "type" => "SequenceTrack",
        "urlTemplate" => "seq/$fa",
-       "useAsRefSeqStore" => 1
+       "useAsRefSeqStore" => JSON::true
       }
         ];
 
