@@ -78,7 +78,8 @@
 
     <!-- PATCHES -->
 
-    <copy file="${projectsDir}/JBrowse/patches/JBrowse/View/Export/GFF3.js"
+    <copy overwrite="true" 
+          file="${projectsDir}/JBrowse/patches/JBrowse/View/Export/GFF3.js"
           tofile="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/src/JBrowse/View/Export/GFF3.js" />
 
     <exec executable="rm"
