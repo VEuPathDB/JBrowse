@@ -2,17 +2,6 @@
 # yarn lockfile v1
 
 
-"@gmod/jbrowse@^1.16.3":
-  version "1.16.3"
-  resolved "https://registry.yarnpkg.com/@gmod/jbrowse/-/jbrowse-1.16.3.tgz#b9b6db0bd9596a5dd130b6b251eba2227cc22f9c"
-  dependencies:
-    express "^4.15.4"
-    fs-extra "^4.0.1"
-    node-fetch "^2.2.0"
-    node-getopt "^0.2.3"
-    optimist "^0.6.1"
-    shelljs "^0.7.8"
-
 "@gmod/jbrowse@https://github.com/GMOD/jbrowse#1.16.9-release":
   version "1.16.9"
   resolved "https://github.com/GMOD/jbrowse#11d5f63e19ce8016263b6d661c5fbfa3a2ccdbd8"
