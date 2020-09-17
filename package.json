@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@gmod/jbrowse": "https://github.com/GMOD/jbrowse#1.16.9-release",
+    "@gmod/jbrowse": "^1.16.6",
     "webpack": "^4.8.1"
   }
 }
