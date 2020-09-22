@@ -10,3 +10,8 @@
   background-color:black;
 }
 
+.jbrowse .track .block .global_highlight {
+   background: rgba( 250, 250, 210, 0.7 );
+}
+
+
