@@ -65,11 +65,6 @@
       todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/EbrcTracks">
       <fileset dir="${projectsDir}/JBrowse/plugins/EbrcTracks" />
     </copy>
-    <!-- EbrcFeatureGlyphs plugin -->
-    <copy
-      todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/EbrcFeatureGlyphs">
-      <fileset dir="${projectsDir}/JBrowse/plugins/EbrcFeatureGlyphs" />
-    </copy>
     <!-- Ebrc Theme plugin -->
     <copy
       todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/EbrcTheme">
