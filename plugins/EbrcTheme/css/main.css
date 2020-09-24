@@ -28,13 +28,12 @@
 }
 
 /* button to hide track labels position on top of the labels (left side)  */
-/*
-span[widgetid="hidetitles-btn"] {
+span.dijit[widgetid="hidetitles-btn"] {
   left: 10em;
   position: fixed;
   top: 4.2em;
 }
-*/
+
 
 /* select tracks TAB to open and close the track selection panel */
 .jbrowse#faceted_tracksel .faceted_tracksel_on_off.tab {
@@ -48,5 +47,6 @@ span[widgetid="hidetitles-btn"] {
 /* track labels  */
 .jbrowse div.track-label {
   border-color: gray;
+  opacity: 0.9;
  /* top: 0;*/
 }
