@@ -1,0 +1,32 @@
+* JBrowse
+
+<a target="_blank" href="https://jbrowse.org/">JJBrowse</a> is a modern genome browser, replaces GBrowse.
+This repository contains instructions to dowload and install JBrowse.  It also contains some external plugins and the source code for VEuPath plugins.  
+
+** Dependencies
+
+   + yarn / npm / ant
+   + WEBAPP_PROP_FILE file (file with one property for the webapp target directory)
+      webappTargetDir=BLAH
+
+** Installation instructions.
+
+   + bldw JBrowse $WEPAPP_PROP_FILE
+
+** Operating instructions.
+
+   + Installation is successful if you can view the sample data in your browser
+
+   #+begin_example
+     $WEBAPP/jbrowse?data=sample_data%2Fjson%2Fvolvox
+     $WEBAPP/jbrowse?data=sample_data%2Fjson%2Fyeast
+   #+end_example
+
+** manifest
+
+   + bin :: scripts for generating configuration used by apollo.  (move to ApiCommonModel??)
+   + patches :: minor modifications to JBrowse src code can be applied here
+   + plugins :: css and js for VEuPath Specific Tracks, Glyphs, Themes, ...
+   + build.xml :: ant build instructions
+   + package.json :: node js
+
