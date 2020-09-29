@@ -26,7 +26,7 @@ This repository contains instructions to dowload and install JBrowse.  It also c
 
    + bin :: scripts for generating configuration used by apollo.  (move to ApiCommonModel??)
    + patches :: minor modifications to JBrowse src code can be applied here
-   + plugins :: css and js for VEuPath Specific Tracks, Glyphs, Themes, ...
+   + plugins :: css and js for VEuPath Specific Tracks, Glyphs, Themes, ...  Also contains zip files for external plugins
    + build.xml :: ant build instructions
    + package.json :: node js
 
