@@ -312,7 +312,8 @@ function (
             var redraw = false;
             var thisB = this;
 
-            var sumHeights = 0;
+            // This must match the value set in "MultiRectLayout"
+            var sumHeights = 3;
             var top = 0;
             array.forEach(thisB.layout.layouts, function (layout, i) {
                 var subtrackHeight = thisB.subtracks[i].height;

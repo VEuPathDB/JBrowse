@@ -25,7 +25,9 @@ function (
         var thisB = this;
 
         var top = 0
-        var sumHeights = 0;
+
+        // This must match the value set in "CanvasSubtracks"
+        var sumHeights = 3;
 
         this.layouts = array.map(this.subtracks, function(subtrack) {
             top = sumHeights
