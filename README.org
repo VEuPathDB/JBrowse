@@ -1,6 +1,6 @@
 * JBrowse
 
-<a target="_blank" href="https://jbrowse.org/">JJBrowse</a> is a modern genome browser, replaces GBrowse.
+[[https://jbrowse.org/][JBrowse]] is a modern genome browser, replaces GBrowse.
 This repository contains instructions to dowload and install JBrowse.  It also contains some external plugins and the source code for VEuPath plugins.  
 
 ** Dependencies
@@ -38,7 +38,6 @@ This repository contains instructions to dowload and install JBrowse.  It also c
 
 *** Example Track Configuration:
    #+begin_example
-<pre>
 {
  ....
     "type": "EbrcTracks/View/Track/Synteny"
