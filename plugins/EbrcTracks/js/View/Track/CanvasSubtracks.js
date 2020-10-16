@@ -123,12 +123,12 @@ function (
                     colNames[v] = 1;
                 });
 
-                var allmetadata = dojo.mixin({ id: i+1 }, featureFilters, metadata, {defaultChecked: defaultChecked});
+                var allmetadata = dojo.mixin({ id: i+1, label: label},  featureFilters, metadata, {defaultChecked: defaultChecked});
 
                 data.push({key: i+1, label: label, metadata: allmetadata});
             }
 
-            var displayColumns = ["id"];
+            var displayColumns = ["id", "label"];
             var renameFacets = {};
             Object.keys(colNames).forEach(function(k) {
                 var lcK = k.toLowerCase();
