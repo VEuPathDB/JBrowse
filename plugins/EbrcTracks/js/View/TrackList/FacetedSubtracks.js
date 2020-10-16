@@ -218,7 +218,7 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
 //                width: '95%',
 //                zIndex: 500
                      width: '1000px',
-                     height: '750px',
+                     height: '550px',
 
             }
         },
