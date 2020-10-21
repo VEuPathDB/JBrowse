@@ -123,12 +123,12 @@ function (
                     colNames[v] = 1;
                 });
 
-                var allmetadata = dojo.mixin({ id: i+1 }, featureFilters, metadata, {defaultChecked: defaultChecked});
+                var allmetadata = dojo.mixin({ id: i+1, label: label},  featureFilters, metadata, {defaultChecked: defaultChecked});
 
                 data.push({key: i+1, label: label, metadata: allmetadata});
             }
 
-            var displayColumns = ["id"];
+            var displayColumns = ["id", "label"];
             var renameFacets = {};
             Object.keys(colNames).forEach(function(k) {
                 var lcK = k.toLowerCase();
@@ -312,7 +312,8 @@ function (
             var redraw = false;
             var thisB = this;
 
-            var sumHeights = 0;
+            // This must match the value set in "MultiRectLayout"
+            var sumHeights = 3;
             var top = 0;
             array.forEach(thisB.layout.layouts, function (layout, i) {
                 var subtrackHeight = thisB.subtracks[i].height;

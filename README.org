@@ -1,0 +1,187 @@
+* JBrowse
+
+[[https://jbrowse.org/][JBrowse]] is a modern genome browser, replaces GBrowse.
+This repository contains instructions to dowload and install JBrowse.  It also contains some external plugins and the source code for VEuPath plugins.  
+
+** Dependencies
+
+   + yarn / npm / ant
+   + WEBAPP_PROP_FILE file (file with one property for the webapp target directory)
+      webappTargetDir=BLAH
+
+** Installation instructions.
+
+   + bldw JBrowse $WEPAPP_PROP_FILE
+
+** Operating instructions.
+
+   + Installation is successful if you can view the sample data in your browser
+
+   #+begin_example
+     $WEBAPP/jbrowse?data=sample_data%2Fjson%2Fvolvox
+     $WEBAPP/jbrowse?data=sample_data%2Fjson%2Fyeast
+   #+end_example
+
+** manifest
+
+   + bin :: scripts for generating configuration used by apollo.  (move to ApiCommonModel??)
+   + patches :: minor modifications to JBrowse src code can be applied here
+   + plugins :: css and js for VEuPath Specific Tracks, Glyphs, Themes, ...  Also contains zip files for external plugins
+   + build.xml :: ant build instructions
+   + package.json :: node js
+
+
+** Canvas Subtracks and Synteny
+   + geneGroupAttributeName ::  An attribute of the features which indicates the group.  Features with the same value for this attribute will be connected with shading.
+   + subtracks ::   list which contains "featureFilters" and "metadata" objects.  featureFilters are used to assign features into subtracks and "metadata" is used for configuration/subtrack selection.
+   + (For Canvas Subtracks without Synteny Shading simply remove the geneGroupAttributeName and change the type to "EbrcTracks/View/Track/CanvasSubtracks")
+
+*** Example Track Configuration:
+   #+begin_example
+{
+ ....
+    "type": "EbrcTracks/View/Track/Synteny"
+    "geneGroupAttributeName": "orthomcl_name",
+    "subtracks": [
+        {
+            "featureFilters": {
+                "SynType": "gene",
+                "Taxon": "Plasmodium falciparum 3D7"
+            },
+            "label": "pfal3D7 gene",
+            "metadata": {
+                "Class": "Aconoidasida",
+                "Genus": "Plasmodium",
+                "Kingdom": "N/A",
+                "Phylum": "Apicomplexa",
+                "Species": "Plasmodium falciparum"
+            },
+            "visible": true
+        },
+        {
+            "featureFilters": {
+                "SynType": "span",
+                "Taxon": "Plasmodium falciparum 3D7"
+            },
+            "label": "pfal3D7 span",
+            "metadata": {
+                "Class": "Aconoidasida",
+                "Genus": "Plasmodium",
+                "Kingdom": "N/A",
+                "Phylum": "Apicomplexa",
+                "Species": "Plasmodium falciparum"
+            },
+            "visible": true
+        }, 
+	....
+    ]
+}
+   #+end_example
+
+*** Store
+
+Tested with REST, GFF, NCList which should work fine if you are displaying static alignments.
+
+EbrcTracks plugin provides "EbrcTracks/Store/SeqFeature/REST" which will add 2 query params to the service call (visibleRegionStart and visibleRegionEnd).  This allows the service to do whatever scaling is appropriate for the syntenic region.
+
+*** data workflow in a nutshell
+
+Most of the heavy lifting is done upstream of this plugin.  One possible approach is:
+
+    + Perform all possible pairwise comparisons of genomes and determine all large regions of synteny (we use [[https://pubmed.ncbi.nlm.nih.gov/17993677/][mercator]]) [[https://github.com/VEuPathDB/ApiCommonData/blob/master/Load/bin/runMercator][bash script]]
+    + For each syntenic region, determine the coordinate pairs for each syntenic gene's start and end to the corresponding gene start and end in reference coordinates.  [[https://github.com/VEuPathDB/ApiCommonData/blob/master/Load/plugin/perl/InsertSyntenySpans.pm][Perl Code]]
+    + Create a REST endpoint which when given an arbitrary region (visibleRegionStart->visibleRegionEnd) can get the min and max coord pair for the region and scale the syntenic locations so they can be shown in reference coordinates.  
+      + we use JAX-RS [[https://github.com/VEuPathDB/ApiCommonWebsite/blob/master/Service/src/main/java/org/apidb/apicommon/service/services/jbrowse/JBrowseService.java][java endpoint]]
+
+   #+begin_src sql
+-- for syntenic genes
+select * from (
+-- first get all genes in the visible region
+with syn_genes as (
+select sg.synteny_id
+     , ga.start_min syn_gene_start 
+     , ga.end_max syn_gene_end
+     , ga.na_sequence_id as syn_na_sequence_id
+     , ga.na_feature_id as syn_na_feature_id
+     , sg.syn_organism_abbrev
+     , sg.is_reversed as syn_gene_is_reversed
+     , sg.start_min ref_gene_start
+     , sg.end_max ref_gene_end
+     , sg.na_sequence_id ref_na_sequence_id
+from apidb.syntenicgene sg, 
+     apidbtuning.geneattributes ga
+where sg.na_sequence_id = $srcfeature_id
+  AND sg.start_min <=  $$visibleRegionEnd$$
+  AND sg.end_max >=  $$visibleRegionStart$$
+  AND sg.syn_na_feature_id = ga.na_feature_id
+),
+sscale as (
+select synteny_id
+     , min(syn_gene_start) syn_min
+     , max(syn_gene_end) syn_max
+     , max(syn_gene_end) - min(syn_gene_start) + 1 as syn_length
+     , min(ref_gene_start) ref_min
+     , max(ref_gene_end) ref_max
+     , max(ref_gene_end) - min(ref_gene_start) + 1 as ref_length
+from syn_genes
+group by synteny_id),
+-- calc gene coords in ref space
+scaled_syngenes as (
+select sg.syn_na_sequence_id
+     , sg.syn_na_feature_id
+     , sg.syn_organism_abbrev
+     , sg.synteny_id
+     , CASE WHEN s.is_reversed = 1 
+            THEN round(ref_max - (((syn_gene_end - syn_min + 1) / syn_length) * ref_length))
+            ELSE round(ref_min + (((syn_gene_start - syn_min + 1) / syn_length) * ref_length)) 
+        END as s
+     , CASE WHEN s.is_reversed = 1 
+            THEN round(ref_max - (((syn_gene_start - syn_min + 1) / syn_length) * ref_length))
+            ELSE round(ref_min + (((syn_gene_end - syn_min + 1) / syn_length) * ref_length))
+        END as e
+     , sg.syn_gene_is_reversed
+     , ref_na_sequence_id
+from syn_genes sg,
+     sscale ss,
+     apidb.synteny s
+where sg.synteny_id = s.synteny_id
+ and ss.synteny_id = s.synteny_id
+)
+SELECT
+       sg.synteny_id || '_syngene_' || gattr.na_feature_id feature_id,
+       'gene' type,
+       'syntenyJBrowseScaled' source,
+       gattr.source_id name,
+       '.' score,
+       sg.ref_na_sequence_id parent_id,
+       sg.s startm, 
+       sg.e end,
+       decode(sg.syn_gene_is_reversed, 0, +1, 1, -1, +1) strand,
+      'Note=' || gattr.product || decode(gattr.is_deprecated,1,' (deprecated)') || '$dlm' ||
+       'SOTerm=' || gattr.so_term_name || '$dlm' ||
+       'Contig=' || gattr.sequence_id || '$dlm' ||
+       'IsPseudo=' || gattr.is_pseudo || '$dlm' ||
+       'isDeprecated=' || gattr.is_deprecated || '$dlm' ||
+       'GeneStart=' || gattr.start_min || '$dlm' ||
+       'GeneEnd=' || gattr.end_max || '$dlm' ||
+       'IsReversed=' || gattr.is_reversed || '$dlm' ||
+       'SynType=' || 'gene' ||  '$dlm' ||
+       'orthomcl_name=' || gattr.orthomcl_name || '$dlm' ||
+       'Kingdom=' || ostr.kingdom ||  '$dlm' ||
+       'Class=' || ostr.class ||  '$dlm' ||
+       'Phylum=' || ostr.phylum ||  '$dlm' ||
+       'Genus=' || ostr.genus ||  '$dlm' ||
+       'Species=' || ostr.species ||  '$dlm' ||
+       'Taxon=' || gattr.organism  ||  '$dlm' ||
+       'OrgAbbrev=' || sg.syn_organism_abbrev atts
+FROM   scaled_syngenes sg,
+       ApidbTuning.GeneAttributes gattr,
+       apidbtuning.OrganismSelectTaxonRank ostr
+WHERE sg.ref_na_sequence_id = $srcfeature_id
+  AND sg.s <= $rend
+  AND sg.e >= $base_start
+  AND sg.syn_na_feature_id = gattr.na_feature_id
+  AND gattr.organism = ostr.organism 
+)
+
+#+end_src

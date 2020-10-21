@@ -218,7 +218,7 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
 //                width: '95%',
 //                zIndex: 500
                      width: '1000px',
-                     height: '750px',
+                     height: '550px',
 
             }
         },
@@ -469,6 +469,8 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
         // deselects everything else, which is quite undesirable.
         grid.onRowClick = function() {};
         grid.onRowSelected = function() {};
+
+        grid.layout.setColumnVisibility(1, false);
 
         // 2. monkey-patch the grid's range-selector to refuse to select
         // if the selection is too big

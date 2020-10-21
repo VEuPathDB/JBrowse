@@ -1,12 +1,52 @@
-#navbox {
-  background: whitesmoke;
+
+/* menubar background color */
+.jbrowse div.menuBar {
+  background-color: #222324;  /* dimgray; */
 }
 
+/* highlight color and transparency, overrides browser's default color */
+.jbrowse .track .block .global_highlight {
+   background: rgba( 250, 250, 210, 0.7 );
+}
+
+/* red border rectangle marking selected location */
+.jbrowse div.locationThumb {
+  /*background: rgba(109,117,125,0.1); */
+  background: rgba(39,41,43,0.1);
+}
+
+/* navigation area between location markers */
+/*
+#navbox {
+ background: whitesmoke;
+}
+*/
+
+/* navigation area between location markers: swoosh connecting selected locations on top with the tracks below  */
+.jbrowse div.locationTrap {
+  border-bottom-color: silver;
+}
+
+/* button to hide track labels position on top of the labels (left side)  */
+span.dijit[widgetid="hidetitles-btn"] {
+  left: 10em;
+  position: fixed;
+  top: 4.2em;
+}
+
+
+/* select tracks TAB to open and close the track selection panel */
+.jbrowse#faceted_tracksel .faceted_tracksel_on_off.tab {
+  top: 3.5em;
+}
 .jbrowse#faceted_tracksel #faceted_tracksel_top {
   background-color:black;
 }
 
-.jbrowse div.menuBar {
-  background-color:black;
-}
 
+/* track labels  */
+.jbrowse div.track-label {
+  border-color: gray;
+  opacity: 0.9;
+ /* top: 0;*/
+}
