@@ -27,13 +27,13 @@
   border-bottom-color: silver;
 }
 
-/* button to hide track labels position on top of the labels (left side)  */
+/* button to hide track labels position on top of the labels (left side)  
 span.dijit[widgetid="hidetitles-btn"] {
   left: 10em;
   position: fixed;
   top: 4.2em;
 }
-
+*/
 
 /* select tracks TAB to open and close the track selection panel */
 .jbrowse#faceted_tracksel .faceted_tracksel_on_off.tab {
