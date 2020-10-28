@@ -5,11 +5,12 @@ use strict;
 use JSON;
 
 use LWP::Simple;
-
-use File::Copy "cp";
-
+use File::Copy;
+#use File::Copy "cp";
+#use CBIL::Util::Utils;
 use Getopt::Long;
 use Data::Dumper;
+use URI::Escape;
 
 my ($help, $directory, @websites, $workflowDir, $subdomain, $stripSubdomain);
 
@@ -52,6 +53,7 @@ foreach my $website (@websites) {
 
   foreach my $organism (@{$organisms->{organisms}}) {
     my $organismAbbrev = $organism->{ORGANISM_ABBREV};
+    my $fullName = $organism->{NAME};
 
     next if($isPartialProject && &skipOrganism($organismAbbrev, \%partialProjects));
 
@@ -88,14 +90,25 @@ foreach my $website (@websites) {
      my $fa = "$organismAbbrev.fa";
      my $fai = "$organismAbbrev.fa.fai";
      my $refSeqFasta = "$organismDir/seq/$fa";
+     my $fullNameEscaped= uri_escape($fullName);
+print "FULLNAME= $fullName \n";
+     my $srtFastaSeqUrl = $sourceWebsite."/a/service/record-types/genomic-sequence/searches/SequencesByTaxon/reports/srt\?organism=$fullNameEscaped&reportConfig=\{\"attachmentType\":\"plain\",\"revComp\":true,\"start\":1\,\"end\":0\}";
+print "URL = $srtFastaSeqUrl\n";
+     my $fastaSeqCmd = "curl $srtFastaSeqUrl";
+     #my $fastaSequence = &runCmd($fastaSeqCmd); 
+     my $fastaSequence = `$fastaSeqCmd`;
+     open(FASTASEQ, ">$refSeqFasta") or die "Cannot open file $refSeqFasta for writing: $!";
+     print FASTASEQ $fastaSequence . "\n";
+     close FASTASEQ;
+
 
     # TODO:
     # # will Bob's Server have samtools installed?  
     # # can we use docker or singularity to index the fasta? (ask BobB)
 
     # cp($fastaFile, $refSeqFasta);
-    # system("samtools faidx $refSeqFasta") == 0
-    #     or die "samtools command failed: $?";
+     system("samtools faidx $refSeqFasta") == 0
+         or die "samtools command failed: $?";
 
      $main->{refSeqs} = "seq/$fai";
 
