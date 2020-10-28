@@ -27,8 +27,8 @@
   border-bottom-color: silver;
 }
 
-/* button to hide track labels position on top of the labels (left side)  */
-/*span.dijit[widgetid="hidetitles-btn"] {
+/* button to hide track labels position on top of the labels (left side)  
+span.dijit[widgetid="hidetitles-btn"] {
   left: 10em;
   position: fixed;
   top: 4.2em;
