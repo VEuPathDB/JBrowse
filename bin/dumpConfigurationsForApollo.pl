@@ -6,8 +6,8 @@ use JSON;
 
 use LWP::Simple;
 use File::Copy;
-#use File::Copy "cp";
-#use CBIL::Util::Utils;
+use File::Copy "cp";
+use CBIL::Util::Utils;
 use Getopt::Long;
 use Data::Dumper;
 use URI::Escape;
@@ -94,12 +94,12 @@ foreach my $website (@websites) {
 print "FULLNAME= $fullName \n";
      my $srtFastaSeqUrl = $sourceWebsite."/a/service/record-types/genomic-sequence/searches/SequencesByTaxon/reports/srt\?organism=$fullNameEscaped&reportConfig=\{\"attachmentType\":\"plain\",\"revComp\":true,\"start\":1\,\"end\":0\}";
 print "URL = $srtFastaSeqUrl\n";
-     my $fastaSeqCmd = "curl $srtFastaSeqUrl";
-     #my $fastaSequence = &runCmd($fastaSeqCmd); 
-     my $fastaSequence = `$fastaSeqCmd`;
-     open(FASTASEQ, ">$refSeqFasta") or die "Cannot open file $refSeqFasta for writing: $!";
-     print FASTASEQ $fastaSequence . "\n";
-     close FASTASEQ;
+     my $fastaSeqCmd = "curl -o $refSeqFasta $srtFastaSeqUrl";
+     my $fastaSequence = &runCmd($fastaSeqCmd); 
+#     my $fastaSequence = `$fastaSeqCmd`;
+#     open(FASTASEQ, ">$refSeqFasta") or die "Cannot open file $refSeqFasta for writing: $!";
+#     print FASTASEQ $fastaSequence . "\n";
+#     close FASTASEQ;
 
 
     # TODO:
