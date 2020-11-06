@@ -12,7 +12,7 @@ my $file_content = do{local(@ARGV,$/)=$filename;<>};
 
 my $organisms = decode_json $file_content;
 print "Extracting current organisms in Apollo\n";
-my $cmd = "curl -X POST -F 'username=api\@local.host' -F 'password=GFERsVNiX5BQ09uN' -L https://apollo-api\.veupathdb\.org/organism/findAllOrganisms | jq  '\.[]\.commonName'";
+my $cmd = "curl -X POST -F 'username=api\@local.host' -F  -L https://apollo-api\.veupathdb\.org/organism/findAllOrganisms | jq  '\.[]\.commonName'";
 my @currentOrganisms = split /"/, runCmd($cmd);
 chomp @currentOrganisms;
 
