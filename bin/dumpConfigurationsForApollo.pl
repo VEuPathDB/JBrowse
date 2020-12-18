@@ -7,7 +7,7 @@ use JSON;
 use LWP::Simple;
 use File::Copy;
 use File::Copy "cp";
-use CBIL::Util::Utils;
+#use CBIL::Util::Utils;
 use Getopt::Long;
 use Data::Dumper;
 use URI::Escape;
@@ -52,6 +52,8 @@ foreach my $website (@websites) {
   my $organisms = &getOrganismListAndPrintJson($sourceWebsite, $websiteDir);
 
   foreach my $organism (@{$organisms->{organisms}}) {
+
+
     my $organismAbbrev = $organism->{ORGANISM_ABBREV};
     my $fullName = $organism->{NAME};
 
@@ -81,32 +83,36 @@ foreach my $website (@websites) {
     print REFSEQ $refSeqsJson . "\n";
     close REFSEQ;
 
-    # TODO: use webservice for srt to get the top level fasta seqs
-    # my $fastaFile = "$workflowDir/data/$organismAbbrev/makeAndMaskTopLevelGenome/topLevelGenomicSeqs.fasta";
-    # unless(-e $fastaFile) {
-    #   die "file does not exist: $fastaFile";
-    # }
+
 
      my $fa = "$organismAbbrev.fa";
      my $fai = "$organismAbbrev.fa.fai";
      my $refSeqFasta = "$organismDir/seq/$fa";
-     my $fullNameEscaped= uri_escape($fullName);
-print "FULLNAME= $fullName \n";
-     my $srtFastaSeqUrl = $sourceWebsite."/a/service/record-types/genomic-sequence/searches/SequencesByTaxon/reports/srt\?organism=$fullNameEscaped&reportConfig=\{\"attachmentType\":\"plain\",\"revComp\":true,\"start\":1\,\"end\":0\}";
-print "URL = $srtFastaSeqUrl\n";
-     my $fastaSeqCmd = "curl -o $refSeqFasta $srtFastaSeqUrl";
-     my $fastaSequence = &runCmd($fastaSeqCmd); 
-#     my $fastaSequence = `$fastaSeqCmd`;
-#     open(FASTASEQ, ">$refSeqFasta") or die "Cannot open file $refSeqFasta for writing: $!";
-#     print FASTASEQ $fastaSequence . "\n";
-#     close FASTASEQ;
+
+#      my $fullNameEscaped= uri_escape($fullName);
+# print "FULLNAME= $fullName \n";
+#      my $srtFastaSeqUrl = $sourceWebsite."/a/service/record-types/genomic-sequence/searches/SequencesByTaxon/reports/srt\?organism=$fullNameEscaped&reportConfig=\{\"attachmentType\":\"plain\",\"revComp\":true,\"start\":1\,\"end\":0\}";
+# print "URL = $srtFastaSeqUrl\n";
+#      my $fastaSeqCmd = "curl $srtFastaSeqUrl";
+#      #my $fastaSequence = &runCmd($fastaSeqCmd); 
+#      my $fastaSequence = `$fastaSeqCmd`;
+#      open(FASTASEQ, ">$refSeqFasta") or die "Cannot open file $refSeqFasta for writing: $!";
+#      print FASTASEQ $fastaSequence . "\n";
+#      close FASTASEQ;
+
+     # TODO: use webservice for srt to get the top level fasta seqs
+    #https://qa.vectorbase.org/common/downloads/release-49/AaegyptiLVP_AGWG/fasta/data/VectorBase-49_AaegyptiLVP_AGWG_Genome.fasta
+    # USE THIS for making url to download site
+    # print STDERR $organism->{NAME_FOR_FILENAMES}. "\n";
+
+    # TODO: replace these lines with a wget or curl from the download site
+     my $fastaFile = "$workflowDir/data/$organismAbbrev/makeAndMaskTopLevelGenome/topLevelGenomicSeqs.fasta";
+     unless(-e $fastaFile) {
+       die "file does not exist: $fastaFile";
+     }
+     cp($fastaFile, $refSeqFasta);
 
 
-    # TODO:
-    # # will Bob's Server have samtools installed?  
-    # # can we use docker or singularity to index the fasta? (ask BobB)
-
-    # cp($fastaFile, $refSeqFasta);
      system("samtools faidx $refSeqFasta") == 0
          or die "samtools command failed: $?";
 
@@ -135,7 +141,7 @@ print "URL = $srtFastaSeqUrl\n";
 
       $includeUrl = &redirect($sourceWebsite, $includeUrl, $organismAbbrev);
 
-      if($includeUrl =~ /rnaseqJunctions/) {
+      if($includeUrl =~ /rnaseqJunctions/ || $includeUrl =~ /organismSpecific/) {
         $includeUrl = $includeUrl .  "?isApollo=1";
       }
 
@@ -146,9 +152,6 @@ print "URL = $srtFastaSeqUrl\n";
       my ($fileName) = $includeUrl =~ /jbrowse\/(.+)\/$organismAbbrev/; 
       $fileName = "$fileName.json";
       if($includeUrl =~ /tracks.conf/) {
-
-        # this bit removes the dataset_id
-        #$tracksJson =~ s/\[general\]\s*dataset_id=$organismAbbrev//i;
 
         # This bit removes the refseq track;  I'm making the assumption that there is no # char in the refseq track
         $tracksJson =~ s/\[tracks.refseq\][^#\[]*//;
@@ -164,7 +167,6 @@ print "URL = $srtFastaSeqUrl\n";
         $fileName = "apollo_gene_tracks.conf";
       }
 
-      
       $main->{include}->[$i] = $fileName;
       open(I, ">$organismDir/$fileName") or die "Cannot open file $organismDir/$fileName for writing: $!";
 
@@ -262,6 +264,7 @@ sub getData {
   my ($url) = @_;
 
   my $json = get $url;
+
   die "Couldn't get $url" unless defined $json;
   return decode_json ($json);
 }
