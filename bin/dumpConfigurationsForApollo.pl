@@ -57,6 +57,7 @@ foreach my $website (@websites) {
     my $organismAbbrev = $organism->{ORGANISM_ABBREV};
     my $fullName = $organism->{NAME};
 
+    next unless $organism->{IS_ANNOTATED_GENOME};
     next if($isPartialProject && &skipOrganism($organismAbbrev, \%partialProjects));
 
     print STDERR "Preparing Configuration for Organism $organismAbbrev\n";
