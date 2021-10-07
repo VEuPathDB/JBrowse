@@ -1,6 +1,22 @@
+/* Color-blind-friendly amino acids and nucleotides */
+.jbrowse .translatedSequence td.aminoAcid_stop {
+    background-color: #0000FF;
+}
+
+.jbrowse .translatedSequence td.aminoAcid_start {
+    background-color: #FFA500;
+}
+
+.jbrowse .base_a {
+    background-color: #009e73;
+}
+.jbrowse .base_t {
+    background-color: #cc79a7;
+}
+
 #faceted_subtracksel {
     height: 100%;
- }
+} 
     .active {
         -moz-box-shadow: 4px 4px 10px 3px rgba( 30, 30, 50, 0.3 );
         -webkit-box-shadow: 4px 4px 10px 3px rgba( 30, 30, 50, 0.3 );
@@ -256,4 +272,3 @@
 
 
 }
-
