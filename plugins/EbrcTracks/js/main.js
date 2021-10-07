@@ -1,19 +1,23 @@
 define([
        'dojo/_base/declare',
+       'dojo/_base/lang',
        'dojo/_base/array',
        'dijit/MenuItem',
        'dijit/registry',
        'EbrcTracks/View/Dialog/SetTrackYMax',
        'EbrcTracks/View/Dialog/SetTrackLogScale',
+       'EbrcTracks/View/Dialog/DownloadHelp',
        'JBrowse/Plugin'
        ],
        function(
            declare,
+           lang,
            array,
            dijitMenuItem,
            dijitRegistry,
            SetTrackYMaxDialog,
            SetTrackLogScaleDialog,
+           DownloadHelp,
            JBrowsePlugin
        ) {
 return declare( JBrowsePlugin,
@@ -23,6 +27,8 @@ return declare( JBrowsePlugin,
 
         // do anything you need to initialize your plugin here
         console.log( "EbrcTracks plugin starting" );
+
+
 
 
         // hide smrna filter btn
@@ -100,6 +106,19 @@ return declare( JBrowsePlugin,
                 if(didScroll || this.browser.config.alwaysStopScrollBubble) dojo.stopEvent(event);
             };
 
+
+
+            browser.addGlobalMenuItem( 'help',
+                                       new dijitMenuItem(
+                                        {
+                                            id: 'menubar_downloadhelp',
+                                            label: 'Download',
+                                            iconClass: 'jbrowseIconHelp',
+                                            onClick: function() {
+                                                new DownloadHelp( lang.mixin(browser.config.quickHelp || {}, { browser: browser } )).show()
+                                                }
+                                        })
+                                     );
 
 
             // add a global menu item for resizing all visible quantitative tracks
