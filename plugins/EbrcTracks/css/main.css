@@ -1,17 +1,55 @@
 /* Color-blind-friendly amino acids and nucleotides */
+.jbrowse .translatedSequence td.aminoAcid {
+    text-align: center;
+    z-index: 2000;
+    font-weight: 500;
+    color: black;
+    font-family: Roboto ,monospace;
+    text-shadow: white 0px 0px 1px;
+}
+
 .jbrowse .translatedSequence td.aminoAcid_stop {
-    background-color: #cc79a7;
+    font-weight: 800;
+    color: white;
+    background-color: #882255;
 }
 
 .jbrowse .translatedSequence td.aminoAcid_start {
-    background-color: #009e73;
+    font-weight: 800;
+    color: white;
+    background-color: #36743B;
+}
+
+.jbrowse .base {
+    color: black;
+    font-family: Roboto ,monospace;
+    font-weight: 800;
+    text-shadow: white 0px 0px 1px;
 }
 
 .jbrowse .base_a {
-    background-color: #009e73;
+    background-color: #88CCEE;
 }
 .jbrowse .base_t {
-    background-color: #cc79a7;
+    background-color: #D1E9F2;
+}
+.jbrowse .base_c {
+    background-color: #EFE4B6;
+}
+.jbrowse .base_g {
+    background-color: #DDCC77;
+}
+
+.jbrowse .translatedSequence.frame0 {
+    background-color: #cececf;
+}
+
+.jbrowse .translatedSequence.frame1 {
+    background-color: #E5E5E5;
+}
+
+.jbrowse .translatedSequence.frame2 {
+    background-color: #cececf;
 }
 
 #faceted_subtracksel {
