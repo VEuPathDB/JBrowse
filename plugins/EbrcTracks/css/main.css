@@ -11,13 +11,13 @@
 .jbrowse .translatedSequence td.aminoAcid_stop {
     font-weight: 800;
     color: white;
-    background-color: #882255;
+    background-color: #7D164D;
 }
 
 .jbrowse .translatedSequence td.aminoAcid_start {
     font-weight: 800;
     color: white;
-    background-color: #36743B;
+    background-color: #46844B;
 }
 
 .jbrowse .base {
@@ -34,10 +34,10 @@
     background-color: #D1E9F2;
 }
 .jbrowse .base_c {
-    background-color: #EFE4B6;
+    background-color: #F7E4B7;
 }
 .jbrowse .base_g {
-    background-color: #DDCC77;
+    background-color: #E8CE5D;
 }
 
 .jbrowse .translatedSequence.frame0 {
