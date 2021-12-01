@@ -12,6 +12,15 @@
     background-color: #cececf;
 }
 
+.jbrowse .translatedSequence td.aminoAcid {
+    text-align: center;
+    z-index: 2000;
+    font-weight: 500;
+    color: black;
+    font-family: Roboto ,monospace;
+    text-shadow: white 0px 0px 1px;
+}
+
 .jbrowse .translatedSequence td.aminoAcid_stop {
     font-weight: 800;
     color: white;
