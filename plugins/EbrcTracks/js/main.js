@@ -7,6 +7,7 @@ define([
        'EbrcTracks/View/Dialog/SetTrackYMax',
        'EbrcTracks/View/Dialog/SetTrackLogScale',
        'EbrcTracks/View/Dialog/DownloadHelp',
+       'EbrcTracks/View/Dialog/PbrowseLegend',
        'JBrowse/Plugin'
        ],
        function(
@@ -18,6 +19,7 @@ define([
            SetTrackYMaxDialog,
            SetTrackLogScaleDialog,
            DownloadHelp,
+           PbrowseLegend,
            JBrowsePlugin
        ) {
 return declare( JBrowsePlugin,
@@ -116,6 +118,18 @@ return declare( JBrowsePlugin,
                                             iconClass: 'jbrowseIconHelp',
                                             onClick: function() {
                                                 new DownloadHelp( lang.mixin(browser.config.quickHelp || {}, { browser: browser } )).show()
+                                                }
+                                        })
+                                     );
+
+            browser.addGlobalMenuItem( 'help',
+                                       new dijitMenuItem(
+                                        {
+                                            id: 'menubar_pbrowselegend',
+                                            label: 'Pbrowse key',
+                                            iconClass: 'jbrowseIconHelp',
+                                            onClick: function() {
+                                                new PbrowseLegend( lang.mixin(browser.config.quickHelp || {}, { browser: browser } )).show()
                                                 }
                                         })
                                      );
