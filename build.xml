@@ -87,6 +87,7 @@
 
 
     <!-- setup.sh -->
+    <echo message="Running setup.sh"/>
     <exec executable="/bin/bash"
           dir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse"
           failonerror="true"
@@ -95,6 +96,7 @@
     </exec>
 
     <!-- cannot use ant copy because file permissions are not retained -->
+    <echo message="Copying generated JBrowse app into webapp"/>
     <exec executable="cp"
           dir="${projectsDir}/JBrowse"
           failonerror="true"
