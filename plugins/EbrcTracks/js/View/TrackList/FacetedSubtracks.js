@@ -214,7 +214,7 @@ return declare( 'EbrcTracks.View.TrackList.FacetedSubtracks', null,
             id: 'faceted_subtracksel',
             className: 'jbrowse',
             style: {
-//                left: '-95%',
+                left: '-95%',
 //                width: '95%',
 //                zIndex: 500
                      width: '1000px',
