@@ -49,10 +49,21 @@ function (
             var countMatched = 0;
             Object.keys(layout.featureFilters).forEach(function(featureFiltersKey) {
 
-                if(feature.get(featureFiltersKey) === layout.featureFilters[featureFiltersKey]) {
-                    
-//                if(feature.get(featureFiltersKey) != layout.featureFilters[featureFiltersKey]) {
-                    countMatched = countMatched + 1;
+                var featureFilter = layout.featureFilters[featureFiltersKey];
+
+                if(typeof featureFilter == 'function') {
+                    if(featureFilter(feature)) {
+                        countMatched = countMatched + 1;
+                    }
+                }
+
+                else {
+                    console.log("string");
+                    if(feature.get(featureFiltersKey) === layout.featureFilters[featureFiltersKey]) {
+
+                        //                if(feature.get(featureFiltersKey) != layout.featureFilters[featureFiltersKey]) {
+                        countMatched = countMatched + 1;
+                    }
                 }
             });
 
