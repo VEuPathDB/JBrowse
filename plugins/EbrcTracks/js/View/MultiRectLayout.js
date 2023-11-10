@@ -58,7 +58,6 @@ function (
                 }
 
                 else {
-                    console.log("string");
                     if(feature.get(featureFiltersKey) === layout.featureFilters[featureFiltersKey]) {
 
                         //                if(feature.get(featureFiltersKey) != layout.featureFilters[featureFiltersKey]) {
