@@ -1,3 +1,9 @@
+.popup-dialog-iframe .dijitDialogPaneContent {
+    width: 900px;
+    height: 500px;
+}
+
+
 /* Color-blind-friendly amino acids and nucleotides */
 
 .jbrowse .aaScheme_colorblind.base_a { background-color: #8ac3e7; }
