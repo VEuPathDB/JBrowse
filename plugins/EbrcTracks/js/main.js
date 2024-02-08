@@ -30,7 +30,6 @@ return declare( JBrowsePlugin,
 
 
 
-
         // hide smrna filter btn
         browser.afterMilestone('completely initialized', function () {
             var smrnabutton = dijitRegistry.byId('smrna-filter-btn');
@@ -39,6 +38,11 @@ return declare( JBrowsePlugin,
           });
 
         browser.afterMilestone('initView', function() {
+
+        // fix the menuBar name because of "." in the organism Abbrev
+        browser.menuBarDatasetName.valueOf().innerHTML = browser.config.datasets[browser.config.dataset_id].name;
+        browser.menuBarDatasetName.setAttribute("style", "display: inline-block");
+
 
             // Patch to disable L/R Two finger scroll;
             browser.view.wheelScroll = function( event ) {
