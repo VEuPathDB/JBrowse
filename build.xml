@@ -18,94 +18,9 @@
   </target>
 
   <target name="JBrowse-WebInstallation" depends="JBrowse-Installation">
-
-    <!-- yarn install GMOD/jbrowse -->
-    <exec executable="yarn"
-          dir="${projectsDir}/JBrowse"
-          failonerror="true"
-          failifexecutionfails="true">
-      <arg line="install" />
-    </exec>
-
-    <!-- multibigwig plugin -->
-    <unzip src="${projectsDir}/JBrowse/plugins/multibigwig.zip"
-           dest="${projectsDir}/JBrowse/plugins/" />
-    <move
-      todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/MultiBigWig">
-      <fileset dir="${projectsDir}/JBrowse/plugins/multibigwig-master" />
-    </move>
-
-    <!-- trackscore plugin -->
-    <unzip src="${projectsDir}/JBrowse/plugins/jbplugin-trackscores.zip"
-           dest="${projectsDir}/JBrowse/plugins/" />
-    <move
-      todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/TrackScorePlugin">
-      <fileset
-        dir="${projectsDir}/JBrowse/plugins/jbplugin-trackscores-master" />
-    </move>
-
-    <!-- smallrna plugin -->
-    <unzip src="${projectsDir}/JBrowse/plugins/smallrna.zip"
-           dest="${projectsDir}/JBrowse/plugins/" />
-    <move
-      todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/SmallRNAPlugin">
-      <fileset dir="${projectsDir}/JBrowse/plugins/jbplugin-smallrna-master" />
-    </move>
-
-    <!-- gccontent plugin -->
-    <unzip src="${projectsDir}/JBrowse/plugins/gccontent.zip"
-           dest="${projectsDir}/JBrowse/plugins/" />
-    <move
-      todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/GCContent">
-      <fileset dir="${projectsDir}/JBrowse/plugins/gccontent-master" />
-    </move>
-
-    <!-- EbrcTracks plugin -->
-    <copy
-      todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/EbrcTracks">
-      <fileset dir="${projectsDir}/JBrowse/plugins/EbrcTracks" />
-    </copy>
-    <!-- Ebrc Theme plugin -->
-    <copy
-      todir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/plugins/EbrcTheme">
-      <fileset dir="${projectsDir}/JBrowse/plugins/EbrcTheme" />
-    </copy>
-
-    <!-- PATCHES -->
-
-    <copy overwrite="true" 
-          file="${projectsDir}/JBrowse/patches/JBrowse/View/Export/GFF3.js"
-          tofile="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse/src/JBrowse/View/Export/GFF3.js" />
-
-    <exec executable="rm"
-          dir="${webappTargetDir}"
-          failonerror="false"
-          failifexecutionfails="true">
-      <arg line="-r" />
-      <arg line="jbrowse" />
-    </exec>
-
-
-    <!-- setup.sh -->
-    <echo message="Running setup.sh"/>
-    <exec executable="/bin/bash"
-          dir="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse"
-          failonerror="true"
-          failifexecutionfails="true">
-      <arg line="setup.sh" />
-    </exec>
-
-    <!-- cannot use ant copy because file permissions are not retained -->
-    <echo message="Copying generated JBrowse app into webapp"/>
-    <exec executable="cp"
-          dir="${projectsDir}/JBrowse"
-          failonerror="true"
-          failifexecutionfails="true">
-      <arg line="-r" />
-      <arg line="${projectsDir}/JBrowse/node_modules/@gmod/jbrowse" />
-      <arg line="${webappTargetDir}/jbrowse" />
-    </exec>
-
+    <untar dest="${webappTargetDir}" compression="gzip">
+      <url url="https://github.com/VEuPathDB/JBrowse/releases/download/v1.16.6-rocky9/jbrowse-1.6.6-rocky9.tar.gz"/>
+    </untar>
   </target>
 
   <!-- oooooooooooooooooo  Installation Postprocess  ooooooooooooooooooooo -->
