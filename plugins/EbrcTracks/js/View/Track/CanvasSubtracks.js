@@ -230,6 +230,13 @@ function (
         _getLayout: function (scale) {
             if( ! this.layout || this._layoutpitchX != 1/scale ) {
                 var pitchY = this.getConf('layoutPitchY') || 6;
+                // On a genuine zoom change, reset per-subtrack heights so stale estimates
+                // from the previous zoom level don't produce wrong sTop values for the new one.
+                if (this._layoutpitchX && this._layoutpitchX != 1/scale) {
+                    array.forEach(this.subtracks, function(subtrack) {
+                        delete subtrack.height;
+                    });
+                }
                 this.layout = new MultiRectLayout({ pitchX: 1/scale, pitchY: pitchY, maxHeight: this.getConf('maxHeight'), displayMode: this.displayMode, subtracks: this.subtracks });
                 this._layoutpitchX = 1/scale;
             }
