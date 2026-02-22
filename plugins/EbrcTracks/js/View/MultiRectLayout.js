@@ -36,6 +36,8 @@ function (
             var subtrackHeight = subtrack.height || 5;
             sumHeights = sumHeights + subtrackHeight;
 
+            console.log('[MultiRectLayout] subtrack', subtrack.label, 'sTop:', top, 'height:', subtrackHeight);
+
             return new Layout({ sTop: top, pitchX: thisB.pitchX, pitchY: thisB.pitchY, displayMode: thisB.displayMode, featureFilters: subtrack.featureFilters });
         });
     },
