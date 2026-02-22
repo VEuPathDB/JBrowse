@@ -329,7 +329,6 @@ function (
                 top = sumHeights;
                 thisB.subtracks[i].top = top * thisB.pitchY;
                 sumHeights = sumHeights + thisB.subtracks[i].height;
-                layout.sTop = top;
             });
 
             if(redraw) {
